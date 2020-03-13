@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: CI server
+servers:
+  - url: /api
+paths:
+  /settings:
+    get:
+      summary: Returns repository settings
+      operationId: getSettings
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+    post:
+      summary: Saves repository settings
+      operationId: saveSettings
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+      requestBody:
+        $ref: '#/components/requestBodies/Settings'
+      parameters: []
+components:
+  schemas:
+    Settings:
+      type: object
+      required:
+        - name
+        - mainBranch
+        - buildCommand
+        - checkInterval
+      properties:
+        name:
+          type: string
+          example: some-github-repo
+        mainBranch:
+          type: string
+          example: master
+        buildCommand:
+          type: string
+          example: npm run build
+        checkInterval:
+          type: integer
+          description: an interval in minutes between checks for new commits
+  requestBodies:
+    Settings:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Settings'
+      required: true
+  links: {}
+  callbacks: {}
+security: []
