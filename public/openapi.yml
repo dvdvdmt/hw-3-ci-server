@@ -7,11 +7,11 @@ servers:
 paths:
   /settings:
     get:
-      summary: Returns repository settings
+      summary: Return repository settings
       operationId: getSettings
       responses:
         '200':
-          description: Successful operation
+          description: Success
           content:
             application/json:
               schema:
@@ -21,14 +21,82 @@ paths:
       operationId: saveSettings
       responses:
         '200':
-          description: Successful operation
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Settings'
       requestBody:
-        $ref: '#/components/requestBodies/Settings'
-      parameters: []
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Settings'
+        required: true
+  /builds:
+    get:
+      operationId: getBuilds
+      summary: Return a list of builds
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Build'
+  /builds/{commitHash}:
+    post:
+      summary: Add specified commit to the build queue
+      operationId: runBuild
+      parameters:
+        - name: commitHash
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 4ea74703f8294cac67c92e1667fb6b07f539b354
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+  /builds/{buildId}:
+    get:
+      summary: Return build information
+      operationId: getBuildInfo
+      parameters:
+        - name: buildId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+  /builds/{buildId}/logs:
+    get:
+      summary: Return build logs
+      operationId: getBuildLogs
+      parameters:
+        - name: buildId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     Settings:
@@ -39,7 +107,7 @@ components:
         - buildCommand
         - checkInterval
       properties:
-        name:
+        repoName:
           type: string
           example: some-github-repo
         mainBranch:
@@ -48,16 +116,37 @@ components:
         buildCommand:
           type: string
           example: npm run build
-        checkInterval:
+        period:
           type: integer
-          description: an interval in minutes between checks for new commits
-  requestBodies:
-    Settings:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Settings'
-      required: true
+          description: An interval in minutes between checks for new commits
+    Build:
+      type: object
+      required:
+        - buildNumber
+        - commitHash
+        - commitMessage
+        - author
+        - createdDate
+        - duration
+      properties:
+        buildNumber:
+          type: integer
+        commitHash:
+          type: string
+          example: 4ea74703f8294cac67c92e1667fb6b07f539b354
+        commitMessage:
+          type: string
+          example: improve formatting in readme
+        author:
+          type: string
+          example: Dmitriy Davydov
+        createdDate:
+          type: string
+          format: date-time
+          example: 2020-01-01T20:15:13Z+05:00
+        duration:
+          type: integer
+          description: A number of milliseconds that passed while build was running
   links: {}
   callbacks: {}
 security: []
