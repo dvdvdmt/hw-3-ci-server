@@ -137,13 +137,21 @@ components:
         commitMessage:
           type: string
           example: improve formatting in readme
-        author:
+        authorName:
           type: string
           example: Dmitriy Davydov
-        createdDate:
+        start:
           type: string
           format: date-time
           example: 2020-01-01T20:15:13Z+05:00
+        status:
+          type: string
+          enum:
+            - Waiting
+            - InProgress
+            - Success
+            - Fail
+            - Canceled
         duration:
           type: integer
           description: A number of milliseconds that passed while build was running
