@@ -1,5 +1,4 @@
 const {Message, handleMessage} = require('./messages.js');
-
 const {repoManager} = require('./repo-manager.js');
 
 process.on(
@@ -8,8 +7,8 @@ process.on(
     [Message.INIT_REPO]: () => {
       repoManager.initialize();
     },
-    [Message.RUN_BUILD]: ({payload: {commitHash}}) => {
-      repoManager.runBuildCommand(commitHash);
+    [Message.SCHEDULE_BUILD]: ({payload: {commitHash}}) => {
+      repoManager.scheduleBuild(commitHash);
     },
   })
 );

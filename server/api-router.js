@@ -1,7 +1,9 @@
 const express = require('express');
 const ah = require('express-async-handler');
-const {dbApi} = require('./db-api.js');
+const {scheduleBuild} = require('./repo-manager');
+const {repoProcess} = require('./repo-manager');
 const {settingsApi} = require('./settings-api.js');
+const {buildQueueApi} = require('./build-queue-api.js');
 
 const router = express.Router();
 
@@ -24,20 +26,32 @@ router.post(
 router.get(
   '/builds',
   ah(async (req, res) => {
-    const {data} = await dbApi.get('/build/list');
-    let resJson = [];
-    if (data.data && data.data.length) {
-      resJson = data.data.map((el) => ({
-        buildNumber: el.buildNumber,
-        commitHash: el.commitHash,
-        commitMessage: el.commitMessage,
-        authorName: el.authorName,
-        status: el.status,
-        start: el.start,
-        duration: el.duration,
-      }));
-    }
-    res.json(resJson);
+    res.json(await buildQueueApi.getAll());
+  })
+);
+
+router.post(
+  '/builds/:commitHash',
+  ah(async (req, res) => {
+    const {commitHash} = req.params;
+    repoProcess.send(scheduleBuild({commitHash}));
+    res.sendStatus(200);
+  })
+);
+
+router.get(
+  '/builds/:buildId',
+  ah(async (req, res) => {
+    const {buildId} = req.params;
+    res.json(await buildQueueApi.get(buildId));
+  })
+);
+
+router.get(
+  '/builds/:buildId/logs',
+  ah(async (req, res) => {
+    const {buildId} = req.params;
+    res.json(await buildQueueApi.getBuildLog(buildId));
   })
 );
 

@@ -1,14 +1,14 @@
 const Message = {
   INIT_REPO: 'INIT_REPO',
-  RUN_BUILD: 'RUN_BUILD',
+  SCHEDULE_BUILD: 'SCHEDULE_BUILD',
 };
 
 function initRepo() {
   return {type: Message.INIT_REPO};
 }
 
-function runBuild(payload) {
-  return {type: Message.INIT_REPO, payload};
+function scheduleBuild(payload) {
+  return {type: Message.SCHEDULE_BUILD, payload};
 }
 
 function handleMessage(handlers, typeKey = 'type') {
@@ -28,4 +28,4 @@ function handleMessage(handlers, typeKey = 'type') {
   };
 }
 
-module.exports = {initRepo, handleMessage, Message, runBuild};
+module.exports = {initRepo, handleMessage, Message, scheduleBuild};
