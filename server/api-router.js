@@ -1,5 +1,6 @@
 const express = require('express');
 const ah = require('express-async-handler');
+const {initRepo} = require('./repo-manager');
 const {scheduleBuild} = require('./repo-manager');
 const {repoProcess} = require('./repo-manager');
 const {settingsApi} = require('./settings-api.js');
@@ -19,6 +20,7 @@ router.post(
   '/settings',
   ah(async (req, res) => {
     const settings = await settingsApi.update(req.body);
+    repoProcess.send(initRepo());
     res.json(settings);
   })
 );

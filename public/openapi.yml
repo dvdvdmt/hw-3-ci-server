@@ -98,10 +98,10 @@ components:
     Settings:
       type: object
       required:
-        - name
+        - repoName
         - mainBranch
         - buildCommand
-        - checkInterval
+        - period
       properties:
         repoName:
           type: string
