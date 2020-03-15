@@ -17,7 +17,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {swaggerUrl: '/opena
 app.use(errorHandler);
 
 app.listen(3000, async () => {
-  console.log("CI server is running at http://localhost:3000");
-  console.log("Swagger UI available at http://localhost:3000/api-docs");
+  console.log('CI server is running at http://localhost:3000');
+  console.log('Swagger UI available at http://localhost:3000/api-docs');
   await repoManager.initialize();
 });

@@ -8,5 +8,5 @@ exports.config = {
   rootDir,
   publicDir,
   reposDir,
-  repoHostUserUrl: `${process.env.REPO_HOST_URL}/${process.env.REPO_HOST_USER_ID}`
+  repoHostUserUrl: `${process.env.REPO_HOST_URL}/${process.env.REPO_HOST_USER_ID}`,
 };
