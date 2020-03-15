@@ -59,10 +59,6 @@ paths:
       responses:
         '200':
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Build'
   /builds/{buildId}:
     get:
       summary: Return build information
@@ -72,7 +68,7 @@ paths:
           in: path
           required: true
           schema:
-            type: number
+            type: string
       responses:
         '200':
           description: Success
@@ -89,7 +85,7 @@ paths:
           in: path
           required: true
           schema:
-            type: number
+            type: string
       responses:
         '200':
           description: Success
@@ -125,9 +121,8 @@ components:
         - buildNumber
         - commitHash
         - commitMessage
-        - author
-        - createdDate
-        - duration
+        - authorName
+        - status
       properties:
         buildNumber:
           type: integer
