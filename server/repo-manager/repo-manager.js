@@ -1,13 +1,9 @@
-const util = require('util');
-const childProcess = require('child_process');
-const del = require('del');
 const path = require('path');
 const {config} = require('../config.js');
 const {settingsApi} = require('../settings-api.js');
 const {buildQueueApi} = require('../build-queue-api.js');
+const {gitApi} = require('./git-api.js');
 
-const execFile = util.promisify(childProcess.execFile);
-const exec = util.promisify(childProcess.exec);
 let settings = {};
 
 async function initialize() {
@@ -16,97 +12,35 @@ async function initialize() {
     console.log('Repo name is empty. Initialization stopped.');
     return;
   }
-  settings.repoDir = getRepoDir(settings.repoName);
-  settings.repoUrl = getRepoUrl(settings.repoName);
+  gitApi.setup({
+    repoDir: getRepoDir(settings.repoName),
+    repoUrl: getRepoUrl(settings.repoName),
+    reposRootDir: config.reposRootDir,
+    repoName: settings.repoName,
+  });
   await initRepo();
 }
 
 async function initRepo() {
-  await deleteLocalRepo();
-  await cloneRepo();
+  await gitApi.clone(settings.repoUrl, config.reposRootDir);
   console.log(`'${settings.repoName}' initialized`);
-}
-
-async function deleteLocalRepo() {
-  try {
-    console.log(`Removing '${settings.repoDir}'...`);
-    await del(settings.repoDir);
-  } catch (e) {
-    // It is fine if repo directory does not exists.
-  }
 }
 
 async function runBuildCommand(commitHash) {
   console.log(`Run '${settings.buildCommand}' for '${commitHash}'`);
-  const {stdout} = await exec(settings.buildCommand, {
-    cwd: settings.repoDir,
-  });
-  console.log(stdout);
-  return stdout;
-}
-
-async function getBranchName(commitHash) {
-  let res;
-  try {
-    const {stdout} = await execFile(
-      'git',
-      ['branch', `--format='%(refname:short)'`, '--contains', commitHash],
-      {
-        cwd: settings.repoDir,
-      }
-    );
-    res = stdout;
-  } catch (e) {
-    console.error(`Error: ${e.cmd}`);
-    return;
-  }
-  return res.split('\n')[0];
-}
-
-async function getAuthorName(commitHash) {
-  let res;
-  try {
-    const {stdout} = await execFile(
-      'git',
-      ['show', '--no-patch', `--pretty=format:%an`, commitHash],
-      {
-        cwd: settings.repoDir,
-      }
-    );
-    res = stdout;
-  } catch (e) {
-    console.error(`Error: ${e.cmd}`);
-    return;
-  }
-  return res.trim();
-}
-
-async function getCommitMessage(commitHash) {
-  let res;
-  try {
-    const {stdout} = await execFile(
-      'git',
-      ['show', '--no-patch', `--pretty=format:%B`, commitHash],
-      {
-        cwd: settings.repoDir,
-      }
-    );
-    res = stdout;
-  } catch (e) {
-    console.error(`Error: ${e.cmd}`);
-    return;
-  }
-  return res.trim();
+  const out = await gitApi.execInRepo(settings.buildCommand);
+  console.log(out);
+  return out;
 }
 
 async function scheduleBuild(commitHash) {
-  const branchName = await getBranchName(commitHash);
+  const branchName = await gitApi.getBranchName(commitHash);
   if (!branchName) {
-    console.log(`Can not schedule for commit '${commitHash}'. Its branch does not exist`);
+    console.log(`Can not schedule build for commit '${commitHash}'. Its branch does not exist.`);
     return;
   }
-  const authorName = await getAuthorName(commitHash);
-  const commitMessage = await getCommitMessage(commitHash);
+  const authorName = await gitApi.getAuthorName(commitHash);
+  const commitMessage = await gitApi.getCommitMessage(commitHash);
 
   await buildQueueApi.push({
     commitMessage,
@@ -114,6 +48,7 @@ async function scheduleBuild(commitHash) {
     branchName,
     authorName,
   });
+
   processBuildQueue();
 }
 
@@ -143,13 +78,6 @@ async function processBuildQueue() {
   } finally {
     isQueueInProcess = false;
   }
-}
-
-async function cloneRepo() {
-  const {stdout, stderr} = await execFile('git', ['clone', settings.repoUrl], {
-    cwd: config.reposRootDir,
-  });
-  console.log(stdout || stderr);
 }
 
 function getRepoDir(repoName) {
