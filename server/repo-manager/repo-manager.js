@@ -9,7 +9,7 @@ let settings = {};
 async function initialize() {
   settings = await settingsApi.fetch();
   if (!settings.repoName) {
-    console.log('Repo name is empty. Initialization stopped.');
+    console.log('The repository name is empty. Initialization stopped.');
     return;
   }
   gitApi.setup({
@@ -18,22 +18,27 @@ async function initialize() {
     reposRootDir: config.reposRootDir,
     repoName: settings.repoName,
   });
-  await initRepo();
-}
-
-async function initRepo() {
-  await gitApi.clone(settings.repoUrl, config.reposRootDir);
-  console.log(`'${settings.repoName}' initialized`);
+  const isCloned = await gitApi.clone(settings.repoUrl, config.reposRootDir);
+  if (isCloned) {
+    console.log(`'${settings.repoName}' initialized`);
+  } else {
+    console.log('The repository does not exist or unavailable. Initialization stopped.');
+  }
 }
 
 async function runBuildCommand(commitHash) {
   console.log(`Run '${settings.buildCommand}' for '${commitHash}'`);
-  const out = await gitApi.execInRepo(settings.buildCommand);
-  console.log(out);
-  return out;
+  const ans = await gitApi.execInRepo(settings.buildCommand);
+  console.log(ans.result);
+  return ans;
 }
 
 async function scheduleBuild(commitHash) {
+  const isChecked = await gitApi.checkoutWithFetch(commitHash);
+  if (!isChecked) {
+    console.log(`Can not schedule build for commit '${commitHash}'. It does not exist.`);
+    return;
+  }
   const branchName = await gitApi.getBranchName(commitHash);
   if (!branchName) {
     console.log(`Can not schedule build for commit '${commitHash}'. Its branch does not exist.`);
@@ -64,17 +69,20 @@ async function processBuildQueue() {
     while (build) {
       const startDate = new Date();
       await buildQueueApi.start(build.id, startDate);
-      try {
-        const buildLog = await runBuildCommand(build.commitHash);
-        await buildQueueApi.success(build.id, buildLog, startDate);
-      } catch (e) {
-        console.log(e.stderr);
-        await buildQueueApi.fail(build.id, e.stderr, startDate);
+      const ans = await runBuildCommand(build.commitHash);
+      if (ans.success) {
+        await buildQueueApi.success(build.id, ans.result, startDate);
+      } else {
+        await buildQueueApi.fail(build.id, ans.result, startDate);
       }
       build = await buildQueueApi.pop();
     }
   } catch (e) {
-    console.log(e.stack);
+    if (e.isAxiosError) {
+      console.log(e.response.data);
+    } else {
+      console.log(e.stack);
+    }
   } finally {
     isQueueInProcess = false;
   }

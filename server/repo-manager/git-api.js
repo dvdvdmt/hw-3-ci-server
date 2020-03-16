@@ -75,24 +75,76 @@ async function clone() {
     // It is fine if repo directory does not exists.
   }
 
-  const {stdout, stderr} = await execFile('git', ['clone', repoUrl], {
-    cwd: reposRootDir,
-  });
-  console.log(stdout || stderr);
+  try {
+    const {stdout, stderr} = await execFile('git', ['clone', repoUrl], {
+      cwd: reposRootDir,
+    });
+    console.log(stdout || stderr);
+    return true;
+  } catch (e) {
+    console.log(`Error: ${e.cmd}`);
+    return false;
+  }
 }
 
 async function execInRepo(command) {
-  const {stdout} = await exec(command, {
-    cwd: repoDir,
-  });
-  return stdout;
+  try {
+    const {stdout} = await exec(command, {
+      cwd: repoDir,
+    });
+    return {success: true, result: stdout};
+  } catch (e) {
+    console.log(`Error: ${e.cmd}`);
+    return {success: false, result: e.stdout || e.stderr};
+  }
+}
+
+async function fetch() {
+  try {
+    const {stdout, stderr} = await execFile('git', ['fetch'], {
+      cwd: repoDir,
+    });
+    console.log(stdout || stderr);
+    return true;
+  } catch (e) {
+    console.log(`Error: ${e.cmd}`);
+    return false;
+  }
+}
+
+async function checkout(commitHash) {
+  try {
+    const {stdout, stderr} = await execFile('git', ['checkout', commitHash], {
+      cwd: repoDir,
+    });
+    console.log(stdout || stderr);
+    return true;
+  } catch (e) {
+    console.log(`Error: ${e.cmd}`);
+    return false;
+  }
+}
+
+async function checkoutWithFetch(commitHash) {
+  const isChecked = await checkout(commitHash);
+  if (!isChecked) {
+    const isFetched = await fetch();
+    if (isFetched) {
+      return await checkout(commitHash);
+    }
+    return false;
+  }
+  return true;
 }
 
 exports.gitApi = {
-  getCommitMessage,
-  getBranchName,
-  getAuthorName,
   clone,
-  setup,
+  checkout,
   execInRepo,
+  fetch,
+  checkoutWithFetch,
+  getAuthorName,
+  getBranchName,
+  getCommitMessage,
+  setup,
 };
