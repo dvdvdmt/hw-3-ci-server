@@ -1,0 +1,7 @@
+env:
+  node: true
+extends:
+  - ../../.eslintrc.yml
+  - plugin:react/recommended
+plugins:
+  - react
