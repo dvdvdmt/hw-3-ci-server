@@ -1,7 +1,11 @@
 import React from 'react';
-
 import './app.scss';
+import {BuildHistory} from './features/build-history/build-history.jsx';
 
 export function App() {
-  return <h1 className="App">Hello world!</h1>;
+  return (
+    <div className="App">
+      <BuildHistory />
+    </div>
+  );
 }

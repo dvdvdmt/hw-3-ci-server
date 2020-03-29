@@ -1,0 +1,10 @@
+@use '../colors' as *;
+
+.Link {
+  color: $gray-rolling-stone;
+  text-decoration: none;
+
+  &:hover {
+    color: $red;
+  }
+}

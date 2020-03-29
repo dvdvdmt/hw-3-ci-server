@@ -1,0 +1,53 @@
+@use '../colors' as *;
+@use '../mixins' as *;
+
+.Button {
+  @include button-reset;
+
+  $border-width: 2px;
+
+  align-items: center;
+  background-color: $gray-mercury;
+  border: $border-width solid transparent;
+  border-radius: 4px;
+  display: inline-flex;
+  font-size: 13px;
+  justify-content: center;
+  min-height: 36px;
+  outline: none;
+  padding: 0 (20px - $border-width);
+
+  &:active {
+    background-color: $gray-alto;
+  }
+
+  &:focus {
+    border-color: $gray-nobel;
+  }
+
+  &_primary {
+    background-color: $yellow-supernova;
+
+    &:active {
+      background-color: $yellow-amber;
+    }
+
+    &:focus {
+      border-color: $yellow-pirate-gold;
+    }
+  }
+
+  &_icon {
+    min-height: 28px;
+    padding: 0 (8px - $border-width);
+  }
+
+  &_iconText {
+    min-height: 28px;
+    padding: 0 (10px - $border-width);
+  }
+}
+
+.Button-Text {
+  margin: 0 5px;
+}

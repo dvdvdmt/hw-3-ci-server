@@ -1,0 +1,12 @@
+export {default as calendarSvg} from './calendar.svg';
+export {default as clockSvg} from './clock.svg';
+export {default as commitSvg} from './commit.svg';
+export {default as configureSvg} from './configure.svg';
+export {default as doneSvg} from './done.svg';
+export {default as failSvg} from './fail.svg';
+export {default as playSvg} from './play.svg';
+export {default as rebuildSvg} from './rebuild.svg';
+export {default as settingsSvg} from './settings.svg';
+export {default as stopwatchSvg} from './stopwatch.svg';
+export {default as userSvg} from './user.svg';
+export {default as clearInputSvg} from './clear-input.svg';

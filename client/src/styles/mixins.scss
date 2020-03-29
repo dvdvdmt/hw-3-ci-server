@@ -1,0 +1,22 @@
+@mixin list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// taken from https://gist.github.com/MoOx/9137295
+@mixin button-reset {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  line-height: normal;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  width: auto;
+}

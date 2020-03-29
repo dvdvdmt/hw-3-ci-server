@@ -1,0 +1,27 @@
+@use '../colors' as *;
+
+.ConfigurePlug {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  justify-content: center;
+}
+
+.ConfigurePlug-Container {
+  max-width: 264px;
+  text-align: center;
+}
+
+.ConfigurePlug-Icon {
+  fill: $gray-mercury;
+}
+
+.ConfigurePlug-Message {
+  line-height: 1.25;
+  margin-top: 32px;
+}
+
+.ConfigurePlug-Buttons {
+  margin-top: 24px;
+}

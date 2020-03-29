@@ -1,0 +1,37 @@
+@use '../colors' as *;
+@use '../sizes' as *;
+
+.Text {
+  &_color_light {
+    color: $gray-rolling-stone;
+  }
+
+  &_type_h1 {
+    font-size: $text-size-xl;
+    letter-spacing: 0.25px;
+    line-height: $text-line-height-xl;
+    margin: 12px 0;
+
+    @media (min-width: $desktop-width) {
+      font-size: $text-size-xxl;
+      line-height: $text-line-height-xxl;
+      margin: 10px 0;
+    }
+  }
+
+  &_type_h2 {
+    font-size: $text-size-l;
+    line-height: $text-line-height-l;
+    margin-bottom: 0;
+    margin-top: 14px;
+  }
+
+  &_type_p {
+    line-height: $text-line-height-m;
+    margin-top: 8px;
+
+    @media (min-width: $desktop-width) {
+      margin-bottom: 22px;
+    }
+  }
+}

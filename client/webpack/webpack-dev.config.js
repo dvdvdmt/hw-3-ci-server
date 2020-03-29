@@ -76,6 +76,7 @@ module.exports = {
     hot: true,
     port: 4000,
     historyApiFallback: true,
+    writeToDisk: true,
     proxy: {
       '/api': 'http://localhost:4001',
     },

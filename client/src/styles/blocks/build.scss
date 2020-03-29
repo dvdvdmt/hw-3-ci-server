@@ -1,0 +1,216 @@
+@use '../colors' as *;
+@use '../sizes' as *;
+
+.Build {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 1px rgba(67, 68, 69, 0.3), 0 0 1px rgba(67, 68, 69, 0.3);
+  color: inherit;
+  display: flex;
+  padding: 16px 12px;
+  text-decoration: none;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(67, 68, 69, 0.3), 0 0 1px rgba(67, 68, 69, 0.3);
+  }
+
+  &_status_success {
+    .Build-Number {
+      color: $green-jade;
+    }
+
+    .Build-StatusIcon_success {
+      display: initial;
+    }
+  }
+
+  &_status_fail {
+    .Build-Number {
+      color: $red-orange;
+    }
+
+    .Build-StatusIcon_fail {
+      display: initial;
+    }
+  }
+
+  &_status_running {
+    .Build-Number {
+      color: $orange-peel;
+    }
+
+    .Build-StatusIcon_running {
+      display: initial;
+    }
+  }
+
+  &_isOpen {
+    @media (min-width: $desktop-width) {
+      .Build-Info {
+        display: block;
+        overflow: visible;
+      }
+
+      .Build-CommitMessage {
+        text-overflow: unset;
+        white-space: normal;
+      }
+
+      .Build-HeaderFirst {
+        align-items: flex-start;
+      }
+
+      .Build-Number {
+        line-height: $text-line-height-l;
+      }
+
+      .Build-Times {
+        align-items: center;
+        border-top: 1px solid $gray-porcelain;
+        color: $gray-scorpion;
+        display: flex;
+        flex-direction: row;
+        margin-top: 8px;
+        padding-top: 8px;
+      }
+
+      .Build-Duration {
+        margin-left: 8px;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.Build-StatusIcon {
+  display: none;
+
+  @media (min-width: $desktop-width) {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.Build-Info {
+  flex: 1;
+  margin-left: 9px;
+  overflow: hidden;
+
+  @media (min-width: $desktop-width) {
+    display: flex;
+  }
+}
+
+.Build-Header {
+  flex: 1;
+  overflow: hidden;
+}
+
+.Build-HeaderFirst {
+  @media (min-width: $desktop-width) {
+    align-items: center;
+    display: flex;
+  }
+}
+
+.Build-HeaderSecond {
+  @media (min-width: $desktop-width) {
+    align-items: center;
+    display: flex;
+
+    .Build-Author {
+      margin-left: 10px;
+    }
+  }
+}
+
+.Build-Number {
+  font-size: 16px;
+  line-height: $text-line-height-s;
+}
+
+.Build-CommitMessage {
+  font-size: $text-size-l;
+  line-height: $text-line-height-l;
+  margin-top: 8px;
+
+  @media (min-width: $desktop-width) {
+    margin-left: 4px;
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.Build-Commit {
+  align-items: center;
+  display: flex;
+  margin-top: 8px;
+}
+
+.Build-CommitHash {
+  color: $gray-scorpion;
+  margin-left: 4px;
+}
+
+.Build-CommitBranch {
+  align-items: center;
+  display: flex;
+}
+
+.Build-CommitBranchName {
+  margin-left: 4px;
+}
+
+.Build-Author {
+  align-items: center;
+  display: flex;
+  margin-top: 8px;
+}
+
+.Build-AuthorName {
+  margin-left: 4px;
+}
+
+.Build-Times {
+  align-items: center;
+  border-top: 1px solid $gray-porcelain;
+  color: $gray-scorpion;
+  display: flex;
+  margin-top: 8px;
+  padding-top: 8px;
+
+  @media (min-width: $desktop-width) {
+    align-items: flex-start;
+    border-top: initial;
+    flex-direction: column;
+    margin-top: initial;
+    padding-top: initial;
+    white-space: nowrap;
+  }
+}
+
+.Build-Duration {
+  align-items: center;
+  display: flex;
+  margin-left: 8px;
+
+  @media (min-width: $desktop-width) {
+    margin-left: 0;
+    margin-top: 12px;
+  }
+}
+
+.Build-DateTime {
+  align-items: center;
+  display: flex;
+}
+
+.Build-DateTimeText {
+  margin-left: 4px;
+}
+
+.Build-DurationText {
+  margin-left: 4px;
+}

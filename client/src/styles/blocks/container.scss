@@ -1,0 +1,14 @@
+@use '../sizes' as *;
+
+.Container {
+  $mobile-padding: 16px;
+
+  margin: 0 auto;
+  max-width: $container-width;
+  padding: 0 $mobile-padding;
+  width: 100%;
+
+  @media (min-width: $desktop-width - 2 * $mobile-padding) {
+    padding: 0;
+  }
+}

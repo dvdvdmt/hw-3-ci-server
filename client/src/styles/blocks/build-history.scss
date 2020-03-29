@@ -1,0 +1,20 @@
+@use '../mixins' as *;
+@use '../sizes' as *;
+
+.BuildHistory-List {
+  @include list-reset;
+}
+
+.BuildHistory-Item {
+  margin-top: 8px;
+}
+
+.BuildHistory-ShowMoreButton {
+  margin-bottom: 16px;
+  margin-top: 8px;
+  width: 100%;
+
+  @media (min-width: $desktop-width) {
+    width: initial;
+  }
+}

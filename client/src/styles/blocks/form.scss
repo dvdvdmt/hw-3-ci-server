@@ -1,0 +1,128 @@
+@use '../sizes' as *;
+@use '../colors' as *;
+
+.Form {
+  @media (min-width: $desktop-width) {
+    max-width: 474px;
+  }
+}
+
+.Form-Group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 18px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &_horizontal {
+    align-items: center;
+    flex-direction: row;
+    margin-top: 16px;
+
+    .Form-InputField {
+      flex: 0;
+      margin-left: 9px;
+      min-width: 52px;
+      text-align: right;
+    }
+
+    @media (min-width: $desktop-width) {
+      margin-top: 20px;
+    }
+  }
+
+  &_buttons {
+    margin-top: 20px;
+
+    & > .Button {
+      margin-top: 12px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    @media (min-width: $desktop-width) {
+      flex-direction: row;
+      margin-top: 24px;
+
+      & > .Button {
+        margin-left: 8px;
+        margin-top: 0;
+
+        &:first-child {
+          margin-left: 0;
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.Form-InputUnit {
+  margin-left: 8px;
+}
+
+.Form-Label {
+  line-height: $text-line-height-m;
+
+  &_required {
+    &::after {
+      content: ' *';
+    }
+  }
+}
+
+.Form-Input {
+  margin-top: 6px;
+  position: relative;
+
+  > .Form-InputField {
+    width: 100%;
+  }
+
+  &_filled {
+    .Form-ClearInput {
+      display: initial;
+    }
+
+    .Form-InputField {
+      padding-right: 28px;
+    }
+  }
+
+  &_focused {
+    .Form-InputField {
+      border-color: $gray-nobel;
+    }
+  }
+}
+
+.Form-InputField {
+  border: 2px solid $gray-alto;
+  border-radius: $radius-m;
+  font-size: $text-size-m;
+  height: 36px;
+  line-height: $text-line-height-s;
+  outline: none;
+  padding: 10px 12px 10px 11px;
+
+  &:focus {
+    border-color: $gray-nobel;
+  }
+
+  &::placeholder {
+    color: $gray-silver;
+  }
+}
+
+.Form-ClearInput {
+  cursor: pointer;
+  display: none;
+  margin-top: 10px;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}

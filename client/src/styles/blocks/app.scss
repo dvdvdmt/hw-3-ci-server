@@ -1,0 +1,38 @@
+@use '../sizes' as *;
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+  font-family: 'YS Text', sans-serif;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#app-root {
+  height: 100%;
+}
+
+.App {
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: $text-size-m;
+}
+
+.App-Main {
+  flex: 1;
+}
+
+.App-Menu {
+  margin-left: auto;
+}

@@ -1,0 +1,13 @@
+@use '../colors' as *;
+@use '../sizes' as *;
+
+.LogMessage {
+  background-color: $gray-concrete;
+  border-radius: 6px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  margin-top: 12px;
+  max-width: $container-width;
+  overflow: auto;
+  padding: 8px 12px;
+}

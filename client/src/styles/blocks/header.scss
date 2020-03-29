@@ -1,0 +1,35 @@
+@use '../sizes' as *;
+
+.Header {
+  display: flex;
+}
+
+.Header-Menu {
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-top: 12px;
+  padding-left: 8px;
+
+  > .Button {
+    margin-left: 8px;
+    white-space: nowrap;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    .Button-Text {
+      display: none;
+    }
+  }
+
+  @media (min-width: $desktop-width) {
+    > .Button:first-of-type {
+      .Button-Text {
+        display: initial;
+      }
+    }
+  }
+}

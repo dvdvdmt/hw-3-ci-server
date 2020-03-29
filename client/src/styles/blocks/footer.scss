@@ -1,0 +1,48 @@
+@use '../colors' as *;
+@use '../mixins' as *;
+@use '../sizes' as *;
+
+.Footer {
+  background-color: $gray-porcelain;
+  padding: 12px 0;
+
+  @media (min-width: $desktop-width) {
+    padding: 8px 0;
+  }
+}
+
+.Footer-Menu {
+  @include list-reset;
+
+  display: flex;
+}
+
+.Footer-MenuItem {
+  line-height: $text-line-height-s;
+  margin-left: 12px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.Footer-Copyright {
+  color: $gray-rolling-stone;
+  line-height: $text-line-height-m;
+  margin-top: 8px;
+
+  @media (min-width: $desktop-width) {
+    margin-left: auto;
+    margin-top: 0;
+  }
+}
+
+.Footer-Container {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: $desktop-width) {
+    align-items: center;
+    flex-direction: row;
+  }
+}
