@@ -9,7 +9,7 @@
     "start:server": "node server/server.js",
     "start:dev-server": "nodemon --ignore repos server/server.js",
     "start:dev-client": "webpack-dev-server --config client/webpack/webpack.config.js --env.dev --watch",
-    "build:client": "webpack --config client/webpack/webpack.config.js --env.dev",
+    "build:client:dev": "webpack --config client/webpack/webpack.config.js --env.dev",
     "lint": "eslint --ext .js,.ts ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

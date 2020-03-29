@@ -5,10 +5,11 @@ const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const rootDir = path.resolve(__dirname, '..');
-const publicDir = path.resolve(rootDir, 'public');
-const srcDir = path.resolve(rootDir, 'src');
-const buildDir = path.resolve(rootDir, 'dist');
+const rootDir = path.resolve(__dirname, '..', '..');
+const clientDir = path.resolve(rootDir, 'client');
+const publicDir = path.resolve(clientDir, 'public');
+const srcDir = path.resolve(clientDir, 'src');
+const buildDir = path.resolve(rootDir, 'public', 'build-client');
 const entryPath = path.resolve(srcDir, 'index.jsx');
 const htmlTemplatePath = path.resolve(srcDir, 'index.html');
 

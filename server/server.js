@@ -12,6 +12,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(config.publicDir));
+app.use(express.static(config.buildClientDir));
 app.use('/api', apiRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {swaggerUrl: '/openapi.yml'}));
 app.use(errorHandler);
