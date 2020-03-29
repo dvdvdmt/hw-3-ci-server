@@ -15,6 +15,9 @@ app.use(express.static(config.publicDir));
 app.use(express.static(config.buildClientDir));
 app.use('/api', apiRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {swaggerUrl: '/openapi.yml'}));
+app.get('*', (req, res) => {
+  res.sendFile(config.indexHtmlPath);
+});
 app.use(errorHandler);
 
 app.listen(3000, async () => {
