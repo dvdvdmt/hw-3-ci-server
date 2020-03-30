@@ -8,7 +8,7 @@ export function SetupSettingsPlug() {
         <h1 className="Text Text_type_h1 Text_color_light">School CI server</h1>
         <div className="Header-Menu">
           <button className="Button Button_icon Header-Button">
-            <SettingsIcon width="12" height="12" className="Button-Icon" />
+            <SettingsIcon width="12" height="12" />
             <span className="Button-Text">Settings</span>
           </button>
         </div>

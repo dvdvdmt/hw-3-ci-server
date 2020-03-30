@@ -18,11 +18,11 @@ export function BuildDetails() {
         <h1 className="Text Text_type_h1">philip1967/my-awesome-repo-with-long-repo-name</h1>
         <div className="Header-Menu">
           <button className="Button Button_icon Header-Button">
-            <RebuildIcon width="12" height="12" className="Button-Icon" />
+            <RebuildIcon width="12" height="12" />
             <span className="Button-Text">Rebuild</span>
           </button>
           <button className="Button Button_icon Header-Button">
-            <SettingsIcon width="12" height="12" className="Button-Icon" />
+            <SettingsIcon width="12" height="12" />
             <span className="Button-Text">Settings</span>
           </button>
         </div>
