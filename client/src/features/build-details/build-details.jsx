@@ -19,11 +19,11 @@ export function BuildDetails() {
         <div className="Header-Menu">
           <button className="Button Button_icon Header-Button">
             <RebuildIcon width="12" height="12" className="Button-Icon" />
-            <span className="Button-Text Header-MenuButtonText">Rebuild</span>
+            <span className="Button-Text">Rebuild</span>
           </button>
           <button className="Button Button_icon Header-Button">
             <SettingsIcon width="12" height="12" className="Button-Icon" />
-            <span className="Button-Text Header-MenuButtonText">Settings</span>
+            <span className="Button-Text">Settings</span>
           </button>
         </div>
       </header>
