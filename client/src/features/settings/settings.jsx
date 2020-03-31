@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ClearInputIcon} from '../../components/icons';
+import {api} from '../../api';
 
 export function Settings() {
+  useEffect(() => {
+    api.getSettings().then((val) => {
+      console.log('val', val);
+    });
+  }, []);
   return (
     <>
       <header className="Header Container">

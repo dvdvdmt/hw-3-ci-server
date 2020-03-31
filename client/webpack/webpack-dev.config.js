@@ -68,17 +68,17 @@ module.exports = {
       {copyUnmodified: true}
     ),
     new webpack.DefinePlugin({
-      'process.env.API_URL': JSON.stringify(process.env.API_URL),
+      'process.env.API_CLIENT_BASE_URL': JSON.stringify(process.env.API_CLIENT_BASE_URL),
     }),
   ],
   devServer: {
     contentBase: buildDir,
     hot: true,
-    port: 4000,
+    port: process.env.WEBPACK_DEV_SERVER_PORT,
     historyApiFallback: true,
     writeToDisk: true,
     proxy: {
-      '/api': 'http://localhost:4001',
+      '/api': process.env.API_SERVER_URL,
     },
   },
 };

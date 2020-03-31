@@ -1,0 +1,2 @@
+# more properties https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/javascript.md
+usePromises: true

@@ -10,6 +10,7 @@
     "start:server:dev": "nodemon --ignore repos server/server.js",
     "start:client:dev": "webpack-dev-server --config client/webpack/webpack.config.js --env.dev --watch",
     "build:client:dev": "webpack --config client/webpack/webpack.config.js --env.dev",
+    "api:generate": "bash openapi/generate-api-client.sh",
     "lint": "eslint --ext .js,.ts ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^1.0.12-4.3.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "date-fns": "^2.11.0",
@@ -29,6 +31,7 @@
     "react-dom": "^16.13.1",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "superagent": "^5.2.2",
     "swagger-ui-express": "^4.1.3"
   },
   "devDependencies": {

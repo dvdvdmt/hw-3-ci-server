@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+require('dotenv').config();
 
 module.exports = (env) => {
   if (env.prod) {
