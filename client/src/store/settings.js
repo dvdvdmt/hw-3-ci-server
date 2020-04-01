@@ -1,15 +1,18 @@
+import {api} from '../api';
+
 const initialState = {
   isFirstLoading: true,
   isLoading: false,
-  repoName: null,
-  mainBranch: null,
-  buildCommand: null,
-  period: null,
+  repoName: '',
+  mainBranch: '',
+  buildCommand: '',
+  period: 0,
 };
 
 const SETTINGS_LOAD_START = 'SETTINGS_LOAD_START';
 const SETTINGS_LOAD_FINISH = 'SETTINGS_LOAD_FINISH';
 const SETTINGS_LOAD_FAIL = 'SETTINGS_LOAD_FAIL';
+const SETTINGS_SET = 'SETTINGS_SET';
 
 export function settings(state = initialState, action) {
   switch (action.type) {
@@ -17,6 +20,8 @@ export function settings(state = initialState, action) {
       return {...state, isLoading: true, isFirstLoading: false};
     case SETTINGS_LOAD_FINISH:
       return {...state, isLoading: false};
+    case SETTINGS_SET:
+      return {...state, ...action.payload};
     case SETTINGS_LOAD_FAIL:
       return {...state, isLoading: false};
     default:
@@ -32,13 +37,29 @@ function loadSettingsStart() {
   return {type: SETTINGS_LOAD_START};
 }
 
-function loadSettingsFinish() {
-  return {type: SETTINGS_LOAD_FINISH};
+function loadSettingsFinish(payload) {
+  return {type: SETTINGS_LOAD_FINISH, payload};
+}
+
+function loadSettingsFail() {
+  return {type: SETTINGS_LOAD_FAIL};
+}
+
+function settingsSet(payload) {
+  return {type: SETTINGS_SET, payload};
 }
 
 export function loadSettings() {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(loadSettingsStart());
+    try {
+      const settings = await api.getSettings();
+      dispatch(loadSettingsFinish());
+      dispatch(settingsSet(settings));
+    } catch (e) {
+      console.error(e); // TODO: notify user
+      dispatch(loadSettingsFail());
+    }
     setTimeout(() => {
       dispatch(loadSettingsFinish());
     }, 1000);
