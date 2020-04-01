@@ -3,7 +3,7 @@ import './app.scss';
 import {Redirect, Route, Switch} from 'react-router';
 import {toBuildDetails, toBuildHistory, toSettings} from './utils/router.js';
 import {BuildHistoryPage} from './features/build-history-page/build-history-page.jsx';
-import {Settings} from './features/settings/settings.jsx';
+import {SettingsPage} from './features/settings-page/settings-page.jsx';
 import {BuildDetails} from './features/build-details/build-details.jsx';
 import {ProgressSpinner} from './components/progress-spinner/progress-spinner.jsx';
 import {useDispatch, useSelector} from 'react-redux';
@@ -29,7 +29,7 @@ function AppRoutes() {
   return (
     <Switch>
       <Route path={toSettings()} exact>
-        <Settings />
+        <SettingsPage />
       </Route>
       <Route path={toBuildDetails()} exact>
         <BuildDetails />

@@ -1,7 +1,11 @@
 import React from 'react';
 import {ClearInputIcon} from '../../components/icons';
+import {useSelector} from 'react-redux';
+import {settingsSelector} from '../../store/settings.js';
 
-export function Settings() {
+export function SettingsPage() {
+  const settings = useSelector(settingsSelector);
+
   return (
     <>
       <header className="Header Container">
@@ -14,59 +18,57 @@ export function Settings() {
             Configure repository connection and synchronization settings.
           </p>
         </div>
-        <form action="" className="Form">
+        <form action="" className="Form" data-test="settings-form">
           <div className="Form-Group">
             <label htmlFor="repo-name" className="Form-Label Form-Label_required">
               GitHub repository
             </label>
-            <div className="Form-Input">
-              <input
-                id="repo-name"
-                type="text"
-                className="Form-InputField"
-                placeholder="user-name/repo-name"
-                required
-              />
-              <ClearInputIcon width="16" height="16" className="Form-ClearInput" />
-            </div>
+            <FormInput
+              id="repo-name"
+              data-test="repoName"
+              type="text"
+              placeholder="user-name/repo-name"
+              value={settings.repoName}
+              required
+            />
           </div>
           <div className="Form-Group">
             <label htmlFor="build-command" className="Form-Label">
               Build command
             </label>
-            <div className="Form-Input Form-Input_filled">
-              <input
-                id="build-command"
-                type="text"
-                className="Form-InputField"
-                placeholder="npm ci"
-                value="npm ci && npm run build"
-                required
-              />
-              <ClearInputIcon width="16" height="16" className="Form-ClearInput" />
-            </div>
+            <FormInput
+              id="build-command"
+              data-test="buildCommand"
+              type="text"
+              placeholder="npm ci"
+              value={settings.buildCommand}
+              required
+            />
           </div>
           <div className="Form-Group">
             <label htmlFor="main-branch" className="Form-Label">
               Main branch
             </label>
-            <div className="Form-Input Form-Input_filled Form-Input_focused">
-              <input
-                id="main-branch"
-                type="text"
-                className="Form-InputField"
-                placeholder="npm ci"
-                value="master |"
-                required
-              />
-              <ClearInputIcon width="16" height="16" className="Form-ClearInput" />
-            </div>
+            <FormInput
+              id="main-branch"
+              data-test="mainBranch"
+              type="text"
+              placeholder="master"
+              value={settings.mainBranch}
+              required
+            />
           </div>
           <div className="Form-Group Form-Group_horizontal">
             <label htmlFor="sync-period" className="Form-Label">
               Synchronize every
             </label>
-            <input id="sync-period" type="text" className="Form-InputField" value="10" />
+            <input
+              id="sync-period"
+              data-test="period"
+              type="text"
+              className="Form-InputField"
+              value={settings.period}
+            />
             <span className="Form-InputUnit">minutes</span>
           </div>
           <div className="Form-Group Form-Group_buttons">
@@ -97,5 +99,14 @@ export function Settings() {
         </div>
       </footer>
     </>
+  );
+}
+
+function FormInput({...rest}) {
+  return (
+    <div className="Form-Input Form-Input_filled">
+      <input className="Form-InputField" {...rest} />
+      <ClearInputIcon width="16" height="16" className="Form-ClearInput" />
+    </div>
   );
 }
