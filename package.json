@@ -12,7 +12,8 @@
     "build:client:dev": "webpack --config client/webpack/webpack.config.js --env.dev",
     "api:generate": "bash openapi/generate-api-client.sh",
     "lint": "eslint --ext .js,.ts ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no unit test specified\" && exit 1",
+    "test:e2e": "cypress open"
   },
   "keywords": [],
   "author": "",

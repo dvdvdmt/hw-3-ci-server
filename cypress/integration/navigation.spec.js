@@ -1,4 +1,4 @@
-describe('navigation', () => {
+describe('navigation >', () => {
   it('opens settings configure plug', () => {
     cy.visit('/');
     cy.get('{configure-plug}').should('be.visible');

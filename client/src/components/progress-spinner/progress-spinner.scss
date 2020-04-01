@@ -1,0 +1,36 @@
+@use "../../styles/colors" as *;
+
+.ProgressSpinner {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.ProgressSpinner-Ring {
+  display: block;
+  height: var(--progress-size, 64px);
+  width: var(--progress-size, 64px);
+
+  &::after {
+    animation: rotation 1.2s linear infinite;
+    border: var(--progress-width, 4px) solid $yellow-supernova;
+    border-color: $yellow-supernova transparent $yellow-supernova transparent;
+    border-radius: 50%;
+    content: '';
+    display: block;
+    height: 100%;
+    margin: 1px;
+    width: 100%;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
