@@ -5,4 +5,7 @@ const dbApi = axios.create({
   headers: {Authorization: `Bearer ${process.env.DB_TOKEN}`},
 });
 
+/**
+ * @var {AxiosInstance}
+ */
 exports.dbApi = dbApi;

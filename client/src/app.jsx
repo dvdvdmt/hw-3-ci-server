@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import './app.scss';
 import {Redirect, Route, Switch} from 'react-router';
 import {toBuildDetails, toBuildHistory, toSettings} from './utils/router.js';
-import {BuildHistory} from './features/build-history/build-history.jsx';
+import {BuildHistoryPage} from './features/build-history-page/build-history-page.jsx';
 import {Settings} from './features/settings/settings.jsx';
 import {BuildDetails} from './features/build-details/build-details.jsx';
 import {ProgressSpinner} from './components/progress-spinner/progress-spinner.jsx';
@@ -35,7 +35,7 @@ function AppRoutes() {
         <BuildDetails />
       </Route>
       <Route path={toBuildHistory()} exact>
-        <BuildHistory />
+        <BuildHistoryPage />
       </Route>
       <Route>
         <Redirect to={toBuildHistory()} />

@@ -25,6 +25,14 @@ router.post(
   })
 );
 
+router.delete(
+  '/settings',
+  ah(async (req, res) => {
+    await settingsApi.reset();
+    res.sendStatus(200);
+  })
+);
+
 router.get(
   '/builds',
   ah(async (req, res) => {

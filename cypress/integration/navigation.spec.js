@@ -1,7 +1,7 @@
 describe('navigation >', () => {
   it('opens settings configure plug', () => {
     cy.visit('/');
-    cy.get('{configure-plug}').should('be.visible');
+    cy.get('{configure-settings-plug}').should('be.visible');
   });
 
   it('opens root page on invalid route', () => {

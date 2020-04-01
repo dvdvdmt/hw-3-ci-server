@@ -1,18 +1,15 @@
 import React from 'react';
-import './build-history.scss';
-import {ConfigureSettingsPlug} from './setup-settings-plug/configure-settings-plug.jsx';
+import './build-history-page.scss';
+import {ConfigureSettingsPlug} from './configure-settings-plug/configure-settings-plug.jsx';
 import {SettingsIcon} from '../../components/icons';
 import {useSelector} from 'react-redux';
 import {settingsSelector} from '../../store/settings.js';
+import {BuildHistory} from './build-history/build-history.jsx';
 
-export function BuildHistory() {
+export function BuildHistoryPage() {
   const settings = useSelector(settingsSelector);
   const areRequiredSettingsExist = settings.buildCommand && settings.repoName;
-  const mainContent = areRequiredSettingsExist ? (
-    <h1>Show build history</h1>
-  ) : (
-    <ConfigureSettingsPlug />
-  );
+  const mainContent = areRequiredSettingsExist ? <BuildHistory /> : <ConfigureSettingsPlug />;
   return (
     <>
       <header className="Header Container">
@@ -24,7 +21,7 @@ export function BuildHistory() {
           </button>
         </div>
       </header>
-      <main className="App-Main Container">{mainContent}</main>
+      {mainContent}
       <footer className="Footer">
         <div className="Footer-Container Container">
           <ul className="Footer-Menu">

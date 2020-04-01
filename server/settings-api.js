@@ -20,4 +20,8 @@ async function fetch() {
   return settings;
 }
 
-exports.settingsApi = {update, fetch};
+async function reset() {
+  return dbApi.delete('/conf');
+}
+
+exports.settingsApi = {update, fetch, reset};
