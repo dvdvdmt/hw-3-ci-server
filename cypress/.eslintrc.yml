@@ -2,6 +2,9 @@ env:
   node: true
 extends:
   - ../.eslintrc.yml
+plugins:
+  - mocha-no-only
 rules:
+  mocha-no-only/mocha-no-only: ["error"]
   import/no-extraneous-dependencies: off
   '@typescript-eslint/no-var-requires': off

@@ -4,7 +4,7 @@ describe('main page >', () => {
     cy.route('GET', '/api/settings').as('fetch-settings');
   });
 
-  it.only('shows progress on settings load', () => {
+  it('shows progress on settings load', () => {
     cy.visit('/');
     cy.get('{main-progress}').should('be.visible');
     // cy.wait('@fetch-settings');

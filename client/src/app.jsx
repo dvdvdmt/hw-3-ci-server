@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import './app.scss';
 import {Redirect, Route, Switch} from 'react-router';
 import {toBuildDetails, toBuildHistory, toSettings} from './utils/router.js';
@@ -6,18 +6,21 @@ import {BuildHistory} from './features/build-history/build-history.jsx';
 import {Settings} from './features/settings/settings.jsx';
 import {BuildDetails} from './features/build-details/build-details.jsx';
 import {ProgressSpinner} from './components/progress-spinner/progress-spinner.jsx';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadSettings, settingsSelector} from './store/settings.js';
 
 export function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const settings = useSelector(settingsSelector);
+  const isSpinnerVisible = settings.isFirstLoading || settings.isLoading;
+  const dispatch = useDispatch();
+  console.log('settings', settings);
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    dispatch(loadSettings());
   }, []);
 
   return (
     <div className="App">
-      {isLoading ? <ProgressSpinner data-test="main-progress" /> : <AppRoutes />}
+      {isSpinnerVisible ? <ProgressSpinner data-test="main-progress" /> : <AppRoutes />}
     </div>
   );
 }
