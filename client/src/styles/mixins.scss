@@ -8,6 +8,7 @@
 @mixin button-reset {
   appearance: none;
   background: transparent;
+  text-decoration: none;
   border: none;
   color: inherit;
   cursor: pointer;

@@ -25,9 +25,18 @@ describe('build history page >', () => {
   });
 
   it('shows configure settings plug if settings do not exist', () => {
-    cy.visit('/');
     cy.deleteSettings();
+    cy.visit('/');
     cy.wait('@fetch-settings');
     cy.get('{configure-settings-plug}').should('be.visible');
+  });
+
+  it('opens settings with a click on configure settings plug', () => {
+    cy.deleteSettings();
+    cy.visit('/');
+    cy.wait('@fetch-settings');
+    cy.get('{to-settings-button}').click();
+    cy.location('pathname').should('equal', '/settings');
+    cy.get('{settings-page}').should('be.visible');
   });
 });
