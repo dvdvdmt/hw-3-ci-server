@@ -15,7 +15,6 @@ import ApiClient from './generated/ApiClient.js';
 import DefaultApi from './generated/api/DefaultApi.js';
 
 const client = new ApiClient();
-console.log('process.env.API_CLIENT_BASE_URL', process.env.API_CLIENT_BASE_URL);
 client.basePath = process.env.API_CLIENT_BASE_URL;
 
 /**

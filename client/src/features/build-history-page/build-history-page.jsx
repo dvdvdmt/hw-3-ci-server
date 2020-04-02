@@ -9,7 +9,7 @@ import {BuildHistory} from './build-history/build-history.jsx';
 export function BuildHistoryPage() {
   const settings = useSelector(settingsSelector);
   const areRequiredSettingsExist = settings.buildCommand && settings.repoName;
-  const mainContent = areRequiredSettingsExist ? <BuildHistory /> : <ConfigureSettingsPlug />;
+  const Main = areRequiredSettingsExist ? BuildHistory : ConfigureSettingsPlug;
   return (
     <>
       <header className="Header Container">
@@ -21,7 +21,7 @@ export function BuildHistoryPage() {
           </button>
         </div>
       </header>
-      {mainContent}
+      <Main />
       <footer className="Footer">
         <div className="Footer-Container Container">
           <ul className="Footer-Menu">

@@ -13,7 +13,6 @@ export function App() {
   const settings = useSelector(settingsSelector);
   const isSpinnerVisible = settings.isFirstLoading || settings.isLoading;
   const dispatch = useDispatch();
-  console.log('settings', settings);
   useEffect(() => {
     dispatch(loadSettings());
   }, []);

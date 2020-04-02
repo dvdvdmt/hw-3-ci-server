@@ -1,10 +1,13 @@
 import React from 'react';
 import {ClearInputIcon} from '../../components/icons';
-import {useSelector} from 'react-redux';
-import {settingsSelector} from '../../store/settings.js';
+import {useDispatch, useSelector} from 'react-redux';
+import {saveSettings, settingsSelector} from '../../store/settings.js';
+import {getFormValuesAsObject} from '../../utils/form.js';
 
 export function SettingsPage() {
   const settings = useSelector(settingsSelector);
+  console.log('settings', settings);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -18,17 +21,18 @@ export function SettingsPage() {
             Configure repository connection and synchronization settings.
           </p>
         </div>
-        <form action="" className="Form" data-test="settings-form">
+        <form action="" className="Form" data-test="settings-form" onSubmit={onSubmitHandler}>
           <div className="Form-Group">
             <label htmlFor="repo-name" className="Form-Label Form-Label_required">
               GitHub repository
             </label>
             <FormInput
               id="repo-name"
+              name="repoName"
               data-test="repoName"
               type="text"
               placeholder="user-name/repo-name"
-              value={settings.repoName}
+              defaultValue={settings.repoName}
               required
             />
           </div>
@@ -38,10 +42,11 @@ export function SettingsPage() {
             </label>
             <FormInput
               id="build-command"
+              name="buildCommand"
               data-test="buildCommand"
               type="text"
               placeholder="npm ci"
-              value={settings.buildCommand}
+              defaultValue={settings.buildCommand}
               required
             />
           </div>
@@ -51,10 +56,11 @@ export function SettingsPage() {
             </label>
             <FormInput
               id="main-branch"
+              name="mainBranch"
               data-test="mainBranch"
               type="text"
               placeholder="master"
-              value={settings.mainBranch}
+              defaultValue={settings.mainBranch}
               required
             />
           </div>
@@ -64,15 +70,16 @@ export function SettingsPage() {
             </label>
             <input
               id="sync-period"
+              name="period"
               data-test="period"
-              type="text"
+              type="number"
               className="Form-InputField"
-              value={settings.period}
+              defaultValue={settings.period}
             />
             <span className="Form-InputUnit">minutes</span>
           </div>
           <div className="Form-Group Form-Group_buttons">
-            <button type="submit" className="Button Button_primary">
+            <button type="submit" className="Button Button_primary" data-test="submit-button">
               Save
             </button>
             <button type="button" className="Button">
@@ -100,6 +107,13 @@ export function SettingsPage() {
       </footer>
     </>
   );
+
+  function onSubmitHandler(event) {
+    event.preventDefault();
+    const formValues = getFormValuesAsObject(event.target, {period: 'number'});
+    console.log('formValues', formValues);
+    dispatch(saveSettings(formValues));
+  }
 }
 
 function FormInput({...rest}) {

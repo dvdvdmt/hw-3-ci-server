@@ -3,6 +3,7 @@ import {api} from '../api';
 const initialState = {
   isFirstLoading: true,
   isLoading: false,
+  isSubmitting: false,
   repoName: '',
   mainBranch: '',
   buildCommand: '',
@@ -13,6 +14,9 @@ const SETTINGS_LOAD_START = 'SETTINGS_LOAD_START';
 const SETTINGS_LOAD_FINISH = 'SETTINGS_LOAD_FINISH';
 const SETTINGS_LOAD_FAIL = 'SETTINGS_LOAD_FAIL';
 const SETTINGS_SET = 'SETTINGS_SET';
+const SETTINGS_SAVE_START = 'SETTINGS_SAVE_START';
+const SETTINGS_SAVE_FINISH = 'SETTINGS_SAVE_FINISH';
+const SETTINGS_SAVE_FAIL = 'SETTINGS_SAVE_FAIL';
 
 export function settings(state = initialState, action) {
   switch (action.type) {
@@ -24,6 +28,12 @@ export function settings(state = initialState, action) {
       return {...state, ...action.payload};
     case SETTINGS_LOAD_FAIL:
       return {...state, isLoading: false};
+    case SETTINGS_SAVE_START:
+      return {...state, isSubmitting: true};
+    case SETTINGS_SAVE_FINISH:
+      return {...state, isSubmitting: false};
+    case SETTINGS_SAVE_FAIL:
+      return {...state, isSubmitting: false};
     default:
       return state;
   }
@@ -37,16 +47,12 @@ function loadSettingsStart() {
   return {type: SETTINGS_LOAD_START};
 }
 
-function loadSettingsFinish(payload) {
-  return {type: SETTINGS_LOAD_FINISH, payload};
+function loadSettingsFinish() {
+  return {type: SETTINGS_LOAD_FINISH};
 }
 
 function loadSettingsFail() {
   return {type: SETTINGS_LOAD_FAIL};
-}
-
-function settingsSet(payload) {
-  return {type: SETTINGS_SET, payload};
 }
 
 export function loadSettings() {
@@ -54,14 +60,41 @@ export function loadSettings() {
     dispatch(loadSettingsStart());
     try {
       const settings = await api.getSettings();
-      dispatch(loadSettingsFinish());
       dispatch(settingsSet(settings));
+      dispatch(loadSettingsFinish());
     } catch (e) {
       console.error(e); // TODO: notify user
       dispatch(loadSettingsFail());
     }
-    setTimeout(() => {
-      dispatch(loadSettingsFinish());
-    }, 1000);
+  };
+}
+
+function settingsSet(payload) {
+  return {type: SETTINGS_SET, payload};
+}
+
+function saveSettingsStart() {
+  return {type: SETTINGS_SAVE_START};
+}
+
+function saveSettingsFinish(payload) {
+  return {type: SETTINGS_SAVE_FINISH, payload};
+}
+
+function saveSettingsFail() {
+  return {type: SETTINGS_SAVE_FAIL};
+}
+
+export function saveSettings(settings) {
+  return async (dispatch) => {
+    dispatch(saveSettingsStart());
+    try {
+      const savedSettings = await api.saveSettings(settings);
+      dispatch(saveSettingsFinish());
+      dispatch(settingsSet(savedSettings));
+    } catch (e) {
+      console.error(e); // TODO: notify user
+      dispatch(saveSettingsFail());
+    }
   };
 }
