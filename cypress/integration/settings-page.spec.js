@@ -54,4 +54,10 @@ describe('settings page >', () => {
     cy.get('{mainBranch}').should('have.value', settings.mainBranch);
     cy.get('{period}').should('have.value', `${settings.period}`);
   });
+
+  it('navigates back to the build history page', () => {
+    cy.visit('/settings');
+    cy.wait('@fetch-settings');
+    cy.get('{to-build-history-button}').click();
+  });
 });

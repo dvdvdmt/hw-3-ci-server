@@ -4,6 +4,7 @@ import {Button} from '../../components/button/button.jsx';
 import {ClearInputIcon} from '../../components/icons';
 import {saveSettings, settingsSelector} from '../../store/settings.js';
 import {getFormValuesAsObject} from '../../utils/form.js';
+import {toBuildHistory} from '../../utils/router.js';
 
 export function SettingsPage() {
   const settings = useSelector(settingsSelector);
@@ -38,7 +39,7 @@ export function SettingsPage() {
             />
           </div>
           <div className="Form-Group">
-            <label htmlFor="build-command" className="Form-Label">
+            <label htmlFor="build-command" className="Form-Label Form-Label_required">
               Build command
             </label>
             <FormInput
@@ -52,7 +53,7 @@ export function SettingsPage() {
             />
           </div>
           <div className="Form-Group">
-            <label htmlFor="main-branch" className="Form-Label">
+            <label htmlFor="main-branch" className="Form-Label Form-Label_required">
               Main branch
             </label>
             <FormInput
@@ -83,7 +84,9 @@ export function SettingsPage() {
             <Button htmlType="submit" type="primary" data-test="submit-button">
               Save
             </Button>
-            <Button htmlType="button">Cancel</Button>
+            <Button htmlType="button" to={toBuildHistory()} data-test="to-build-history-button">
+              Cancel
+            </Button>
           </div>
         </form>
       </main>
