@@ -26,7 +26,7 @@
   }
 
   @media (min-width: $desktop-width) {
-    > .Button:first-of-type {
+    > .Button:first-child {
       .Button-Text {
         display: initial;
       }
