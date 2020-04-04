@@ -1,9 +1,9 @@
 const path = require('path');
-const webpack = require('webpack');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const webpack = require('webpack');
 
 const rootDir = path.resolve(__dirname, '..', '..');
 const clientDir = path.resolve(rootDir, 'client');

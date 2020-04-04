@@ -1,7 +1,6 @@
 import React from 'react';
 import './build-history-page.scss';
 import {useSelector} from 'react-redux';
-import {NavLink} from 'react-router-dom';
 import {Button} from '../../components/button/button.jsx';
 import {SettingsIcon} from '../../components/icons';
 import {settingsSelector} from '../../store/settings.js';

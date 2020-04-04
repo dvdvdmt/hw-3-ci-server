@@ -1,6 +1,7 @@
 import React from 'react';
-import {ClearInputIcon} from '../../components/icons';
 import {useDispatch, useSelector} from 'react-redux';
+import {Button} from '../../components/button/button.jsx';
+import {ClearInputIcon} from '../../components/icons';
 import {saveSettings, settingsSelector} from '../../store/settings.js';
 import {getFormValuesAsObject} from '../../utils/form.js';
 
@@ -79,12 +80,10 @@ export function SettingsPage() {
             <span className="Form-InputUnit">minutes</span>
           </div>
           <div className="Form-Group Form-Group_buttons">
-            <button type="submit" className="Button Button_primary" data-test="submit-button">
+            <Button htmlType="submit" type="primary" data-test="submit-button">
               Save
-            </button>
-            <button type="button" className="Button">
-              Cancel
-            </button>
+            </Button>
+            <Button htmlType="button">Cancel</Button>
           </div>
         </form>
       </main>

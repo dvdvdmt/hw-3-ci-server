@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import './app.scss';
+import {useDispatch, useSelector} from 'react-redux';
 import {Redirect, Route, Switch} from 'react-router';
-import {toBuildDetails, toBuildHistory, toSettings} from './utils/router.js';
+import {ProgressSpinner} from './components/progress-spinner/progress-spinner.jsx';
+import {BuildDetails} from './features/build-details/build-details.jsx';
 import {BuildHistoryPage} from './features/build-history-page/build-history-page.jsx';
 import {SettingsPage} from './features/settings-page/settings-page.jsx';
-import {BuildDetails} from './features/build-details/build-details.jsx';
-import {ProgressSpinner} from './components/progress-spinner/progress-spinner.jsx';
-import {useDispatch, useSelector} from 'react-redux';
 import {loadSettings, settingsSelector} from './store/settings.js';
+import {toBuildDetails, toBuildHistory, toSettings} from './utils/router.js';
 
 export function App() {
   const settings = useSelector(settingsSelector);

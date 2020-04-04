@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Button} from '../../../components/button/button.jsx';
 import {ConfigureIcon} from '../../../components/icons';
 import {toSettings} from '../../../utils/router.js';
 
@@ -13,13 +13,9 @@ export function ConfigureSettingsPlug() {
           and synchronization settings
         </div>
         <div className="ConfigurePlug-Buttons">
-          <Link
-            className="Button Button_primary"
-            to={toSettings()}
-            data-test="to-settings-plug-button"
-          >
+          <Button to={toSettings()} data-test="to-settings-plug-button">
             Open settings
-          </Link>
+          </Button>
         </div>
       </div>
     </main>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from '../../../components/button/button.jsx';
 import {
   CalendarIcon,
   ClockIcon,
@@ -262,7 +263,7 @@ export function BuildHistory() {
           </a>
         </li>
       </ul>
-      <button className="BuildHistory-ShowMoreButton Button">Show more</button>
+      <Button className="BuildHistory-ShowMoreButton">Show more</Button>
     </main>
   );
 }

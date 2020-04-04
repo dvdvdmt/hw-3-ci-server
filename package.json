@@ -7,7 +7,9 @@
   "scripts": {
     "api:generate": "bash openapi/generate-api-client.sh",
     "build:client:dev": "webpack --config client/webpack/webpack.config.js --env.dev",
-    "lint": "eslint --ext .js,.ts ./",
+    "lint": "npm run lint:js",
+    "lint:js": "eslint --ext .js,.jsx,.ts ./client ./server ./cypress",
+    "lint:js:fix": "eslint --ext .js,.jsx,.ts --fix ./client ./server ./cypress",
     "start": "npm run start:server:dev",
     "start:client:dev": "webpack-dev-server --config client/webpack/webpack.config.js --env.dev --watch",
     "start:server": "node server/server.js",
@@ -18,6 +20,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^1.0.12-4.3.0",
     "axios": "^0.19.2",
@@ -60,6 +67,7 @@
     "eslint-plugin-react": "^7.19.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.0.2",
+    "husky": "^4.2.3",
     "mini-css-extract-plugin": "^0.9.0",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",

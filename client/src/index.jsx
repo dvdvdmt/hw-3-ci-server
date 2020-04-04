@@ -1,9 +1,9 @@
 import React from 'react';
 import {render} from 'react-dom';
+import {Provider} from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {App} from './app.jsx';
 import './styles/index.scss';
-import {Provider} from 'react-redux';
 import {store} from './store';
 
 function AppRoot({children}) {
