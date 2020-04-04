@@ -1,5 +1,6 @@
 describe('navigation >', () => {
   it('opens settings configure plug', () => {
+    cy.deleteSettings();
     cy.visit('/');
     cy.get('{configure-settings-plug}').should('be.visible');
   });

@@ -35,7 +35,22 @@ describe('build history page >', () => {
     cy.deleteSettings();
     cy.visit('/');
     cy.wait('@fetch-settings');
-    cy.get('{to-settings-button}').click();
+    cy.get('{to-settings-plug-button}').click();
+    cy.location('pathname').should('equal', '/settings');
+    cy.get('{settings-page}').should('be.visible');
+  });
+
+  it('opens settings with a click on nav menu button', () => {
+    cy.setSettings({
+      repoName: 'repoName',
+      mainBranch: 'mainBranch',
+      buildCommand: 'buildCommand',
+      period: 10,
+    });
+    cy.visit('/');
+    cy.wait('@fetch-settings');
+    cy.get('{build-history}').should('be.visible');
+    cy.get('{to-settings-menu-button}').click();
     cy.location('pathname').should('equal', '/settings');
     cy.get('{settings-page}').should('be.visible');
   });

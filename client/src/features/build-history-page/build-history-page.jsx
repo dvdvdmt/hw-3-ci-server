@@ -1,8 +1,11 @@
 import React from 'react';
 import './build-history-page.scss';
 import {useSelector} from 'react-redux';
+import {NavLink} from 'react-router-dom';
+import {Button} from '../../components/button/button.jsx';
 import {SettingsIcon} from '../../components/icons';
 import {settingsSelector} from '../../store/settings.js';
+import {toSettings} from '../../utils/router.js';
 import {BuildHistory} from './build-history/build-history.jsx';
 import {ConfigureSettingsPlug} from './configure-settings-plug/configure-settings-plug.jsx';
 
@@ -15,10 +18,10 @@ export function BuildHistoryPage() {
       <header className="Header Container">
         <h1 className="Text Text_type_h1 Text_color_light">School CI server</h1>
         <div className="Header-Menu">
-          <button className="Button Button_icon Header-Button">
+          <Button to={toSettings()} data-test="to-settings-menu-button">
             <SettingsIcon width="12" height="12" />
-            <span className="Button-Text">Settings</span>
-          </button>
+            Settings
+          </Button>
         </div>
       </header>
       <Main />
