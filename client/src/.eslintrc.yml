@@ -9,3 +9,4 @@ settings:
   react: {version: detect}
 rules:
   react/prop-types: off
+  '@typescript-eslint/camelcase': [error, {allow: ["^[A-Z]"]}]
