@@ -13,7 +13,7 @@
     "start": "npm run start:server:dev",
     "start:client:dev": "webpack-dev-server --config client/webpack/webpack.config.js --env.dev --watch",
     "start:server": "node server/server.js",
-    "start:server:dev": "nodemon --ignore repos server/server.js",
+    "start:server:dev": "nodemon --watch server server/server.js",
     "test": "echo \"Error: no unit test specified\" && exit 1",
     "test:e2e": "cypress open"
   },

@@ -29,6 +29,7 @@ describe('build history page >', () => {
     cy.visit('/');
     cy.wait('@fetch-settings');
     cy.get('{configure-settings-plug}').should('be.visible');
+    cy.get('{run-build-button}').should('not.be.visible');
   });
 
   it('opens settings with a click on configure settings plug', () => {

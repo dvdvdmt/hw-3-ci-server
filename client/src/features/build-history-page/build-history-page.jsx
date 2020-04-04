@@ -17,10 +17,12 @@ export function BuildHistoryPage() {
       <header className="Header Container">
         <h1 className="Text Text_type_h1 Text_color_light">School CI server</h1>
         <div className="Header-Menu">
-          <Button data-test="run-build-button">
-            <PlayIcon width="12" height="12" />
-            Run build
-          </Button>
+          {areRequiredSettingsExist && (
+            <Button data-test="run-build-button">
+              <PlayIcon width="12" height="12" />
+              Run build
+            </Button>
+          )}
           <Button to={toSettings()} data-test="to-settings-menu-button">
             <SettingsIcon width="12" height="12" />
             Settings
