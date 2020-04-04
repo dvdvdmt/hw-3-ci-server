@@ -1,7 +1,7 @@
 const path = require('path');
+const {buildQueueApi} = require('../build-queue-api.js');
 const {config} = require('../config.js');
 const {settingsApi} = require('../settings-api.js');
-const {buildQueueApi} = require('../build-queue-api.js');
 const {gitApi} = require('./git-api.js');
 
 let settings = {};

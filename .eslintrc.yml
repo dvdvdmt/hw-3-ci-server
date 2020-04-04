@@ -28,5 +28,6 @@ rules:
   arrow-parens: [error, always]
   import/extensions: off
   import/prefer-default-export: off
+  import/order: [error, {alphabetize: {order: 'asc', caseInsensitive: true}}]
   react/prop-types: off
   react/display-name: off

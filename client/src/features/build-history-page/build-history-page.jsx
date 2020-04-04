@@ -1,10 +1,10 @@
 import React from 'react';
 import './build-history-page.scss';
-import {ConfigureSettingsPlug} from './configure-settings-plug/configure-settings-plug.jsx';
-import {SettingsIcon} from '../../components/icons';
 import {useSelector} from 'react-redux';
+import {SettingsIcon} from '../../components/icons';
 import {settingsSelector} from '../../store/settings.js';
 import {BuildHistory} from './build-history/build-history.jsx';
+import {ConfigureSettingsPlug} from './configure-settings-plug/configure-settings-plug.jsx';
 
 export function BuildHistoryPage() {
   const settings = useSelector(settingsSelector);

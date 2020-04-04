@@ -1,11 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const swaggerUi = require('swagger-ui-express');
 const morgan = require('morgan');
-const {repoProcess, initRepo} = require('./repo-manager');
-const {errorHandler} = require('./error-handler.js');
+const swaggerUi = require('swagger-ui-express');
 const {apiRouter} = require('./api-router.js');
 const {config} = require('./config.js');
+const {errorHandler} = require('./error-handler.js');
+const {repoProcess, initRepo} = require('./repo-manager');
 
 const app = express();
 

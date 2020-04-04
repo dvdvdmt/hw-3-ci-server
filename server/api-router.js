@@ -1,10 +1,10 @@
 const express = require('express');
 const ah = require('express-async-handler');
+const {buildQueueApi} = require('./build-queue-api.js');
 const {initRepo} = require('./repo-manager');
 const {scheduleBuild} = require('./repo-manager');
 const {repoProcess} = require('./repo-manager');
 const {settingsApi} = require('./settings-api.js');
-const {buildQueueApi} = require('./build-queue-api.js');
 
 const router = express.Router();
 
