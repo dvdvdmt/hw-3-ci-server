@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import React from 'react';
 import './build-history-page.scss';
 import {useSelector} from 'react-redux';
@@ -15,7 +16,9 @@ export function BuildHistoryPage() {
   return (
     <>
       <header className="Header Container">
-        <h1 className="Text Text_type_h1 Text_color_light">School CI server</h1>
+        <h1 className={cn('Text Text_type_h1', {Text_color_light: !areRequiredSettingsExist})}>
+          {areRequiredSettingsExist ? settings.repoName : 'School CI server'}
+        </h1>
         <div className="Header-Menu">
           {areRequiredSettingsExist && (
             <Button data-test="run-build-button">
