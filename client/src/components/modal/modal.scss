@@ -1,5 +1,8 @@
+@use '../../styles/sizes' as *;
+
 .Modal {
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   left: 0;
@@ -7,4 +10,10 @@
   position: absolute;
   top: 0;
   width: 100%;
+}
+
+.Modal-Content {
+  background-color: white;
+  border-radius: $radius-m;
+  box-shadow: 0 6px 16px rgba(67, 68, 69, 0.3), 0 0 1px rgba(67, 68, 69, 0.3);
 }

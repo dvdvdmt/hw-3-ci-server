@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button} from '../../components/button/button.jsx';
-import {ClearInputIcon} from '../../components/icons';
+import {FormInput} from '../../components/form/form.jsx';
 import {saveSettings, settingsSelector} from '../../store/settings.js';
 import {getFormValuesAsObject} from '../../utils/form.js';
 import {toBuildHistory} from '../../utils/router.js';
@@ -116,13 +116,4 @@ export function SettingsPage() {
     console.log('formValues', formValues);
     dispatch(saveSettings(formValues));
   }
-}
-
-function FormInput({...rest}) {
-  return (
-    <div className="Form-Input Form-Input_filled">
-      <input className="Form-InputField" {...rest} />
-      <ClearInputIcon width="16" height="16" className="Form-ClearInput" />
-    </div>
-  );
 }

@@ -29,7 +29,7 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
+    "*.{js,jsx}": "eslint --cache --fix",
     "*.scss": "stylelint --fix"
   },
   "dependencies": {

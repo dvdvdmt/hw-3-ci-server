@@ -5,6 +5,9 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {App} from './app.jsx';
 import './styles/index.scss';
 import {store} from './store';
+import {loadSettings} from './store/settings.js';
+
+store.dispatch(loadSettings());
 
 function AppRoot({children}) {
   return (

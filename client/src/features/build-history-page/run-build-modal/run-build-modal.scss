@@ -1,0 +1,29 @@
+@use '../../../styles/sizes' as *;
+
+.RunBuildForm {
+  padding: 20px;
+
+  @media (min-width: $desktop-width) {
+    min-width: 485px;
+  }
+
+  .Form-Input {
+    margin-top: 12px;
+  }
+
+  .Form-Group_buttons {
+    margin-top: 12px;
+  }
+}
+
+.RunBuildForm-Header {
+  font-size: $text-size-xl;
+  font-weight: 500;
+  line-height: $text-line-height-xl;
+  margin: 0;
+}
+
+.RunBuildForm-Description {
+  font-size: $text-size-m;
+  line-height: $text-line-height-m;
+}

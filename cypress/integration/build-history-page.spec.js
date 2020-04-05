@@ -55,17 +55,4 @@ describe('build history page >', () => {
     cy.location('pathname').should('equal', '/settings');
     cy.get('{settings-page}').should('be.visible');
   });
-
-  it.skip('opens modal window to run build', () => {
-    cy.setSettings({
-      repoName: 'hw-3-public-repo-example',
-      mainBranch: 'main',
-      buildCommand: 'npm run --silent build',
-      period: 1,
-    });
-    cy.visit('/');
-    cy.wait('@fetch-settings');
-    cy.get('{run-build-button}').click();
-    cy.get('{run-build-modal}').should('be.visible');
-  });
 });
