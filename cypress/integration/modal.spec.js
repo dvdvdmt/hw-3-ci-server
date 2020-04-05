@@ -2,12 +2,13 @@ describe('modal >', () => {
   beforeEach(() => {
     cy.server();
     cy.route('GET', '/api/settings').as('fetch-settings');
-    cy.setSettings({
-      repoName: 'hw-3-public-repo-example',
-      mainBranch: 'main',
-      buildCommand: 'npm run --silent build',
-      period: 1,
+    cy.fixture('default-settings.json').then((settings) => {
+      cy.setSettings(settings);
     });
+  });
+
+  after(() => {
+    cy.deleteSettings();
   });
 
   it('opens modal', () => {

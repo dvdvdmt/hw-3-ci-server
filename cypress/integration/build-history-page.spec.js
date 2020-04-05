@@ -55,4 +55,8 @@ describe('build history page >', () => {
     cy.location('pathname').should('equal', '/settings');
     cy.get('{settings-page}').should('be.visible');
   });
+
+  it.skip('runs new build and shows it in the build list', () => {
+    console.log('123', 123);
+  });
 });

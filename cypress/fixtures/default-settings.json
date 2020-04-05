@@ -1,0 +1,6 @@
+{
+  "repoName": "hw-3-public-repo-example",
+  "mainBranch": "main",
+  "buildCommand": "npm run --silent build",
+  "period": 1
+}
