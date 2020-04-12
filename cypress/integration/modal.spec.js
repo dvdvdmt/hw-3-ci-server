@@ -1,10 +1,13 @@
 describe('modal >', () => {
-  beforeEach(() => {
-    cy.server();
-    cy.route('GET', '/api/settings').as('fetch-settings');
+  before(() => {
     cy.fixture('default-settings.json').then((settings) => {
       cy.setSettings(settings);
     });
+  });
+
+  beforeEach(() => {
+    cy.server();
+    cy.route('GET', '/api/settings').as('fetch-settings');
   });
 
   after(() => {
