@@ -11,18 +11,18 @@ const initialState = {
 };
 
 const SETTINGS_LOAD_START = 'SETTINGS_LOAD_START';
-const SETTINGS_LOAD_FINISH = 'SETTINGS_LOAD_FINISH';
+const SETTINGS_LOAD_SUCCESS = 'SETTINGS_LOAD_SUCCESS';
 const SETTINGS_LOAD_FAIL = 'SETTINGS_LOAD_FAIL';
 const SETTINGS_SET = 'SETTINGS_SET';
 const SETTINGS_SAVE_START = 'SETTINGS_SAVE_START';
-const SETTINGS_SAVE_FINISH = 'SETTINGS_SAVE_FINISH';
+const SETTINGS_SAVE_SUCCESS = 'SETTINGS_SAVE_SUCCESS';
 const SETTINGS_SAVE_FAIL = 'SETTINGS_SAVE_FAIL';
 
 export function settings(state = initialState, action) {
   switch (action.type) {
     case SETTINGS_LOAD_START:
       return {...state, isLoading: true, isFirstLoading: false};
-    case SETTINGS_LOAD_FINISH:
+    case SETTINGS_LOAD_SUCCESS:
       return {...state, isLoading: false};
     case SETTINGS_SET:
       return {...state, ...action.payload};
@@ -30,7 +30,7 @@ export function settings(state = initialState, action) {
       return {...state, isLoading: false};
     case SETTINGS_SAVE_START:
       return {...state, isSubmitting: true};
-    case SETTINGS_SAVE_FINISH:
+    case SETTINGS_SAVE_SUCCESS:
       return {...state, isSubmitting: false};
     case SETTINGS_SAVE_FAIL:
       return {...state, isSubmitting: false};
@@ -48,7 +48,7 @@ function loadSettingsStart() {
 }
 
 function loadSettingsFinish() {
-  return {type: SETTINGS_LOAD_FINISH};
+  return {type: SETTINGS_LOAD_SUCCESS};
 }
 
 function loadSettingsFail() {
@@ -78,7 +78,7 @@ function saveSettingsStart() {
 }
 
 function saveSettingsFinish(payload) {
-  return {type: SETTINGS_SAVE_FINISH, payload};
+  return {type: SETTINGS_SAVE_SUCCESS, payload};
 }
 
 function saveSettingsFail() {
