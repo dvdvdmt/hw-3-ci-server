@@ -1,7 +1,6 @@
 import {api} from '../api';
 
 const initialState = {
-  isFirstLoading: true,
   isLoading: false,
   isSubmitting: false,
   repoName: '',
@@ -21,7 +20,7 @@ const SETTINGS_SAVE_FAIL = 'SETTINGS_SAVE_FAIL';
 export function settings(state = initialState, action) {
   switch (action.type) {
     case SETTINGS_LOAD_START:
-      return {...state, isLoading: true, isFirstLoading: false};
+      return {...state, isLoading: true};
     case SETTINGS_LOAD_SUCCESS:
       return {...state, isLoading: false};
     case SETTINGS_SET:
