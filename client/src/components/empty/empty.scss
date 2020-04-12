@@ -1,0 +1,8 @@
+@use '../../styles/sizes' as *;
+@use '../../styles/colors' as *;
+
+.Empty {
+  color: $gray-nobel;
+  font-size: $text-size-xxl;
+  text-align: center;
+}

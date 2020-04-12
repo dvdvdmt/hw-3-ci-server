@@ -13,6 +13,7 @@ import {
   stopwatchSvg,
   userSvg,
   clearInputSvg,
+  emptySvg,
 } from './svg';
 
 export * from './svg';
@@ -63,4 +64,8 @@ export function UserIcon({...rest}) {
 
 export function ClearInputIcon({...rest}) {
   return <SvgIcon icon={clearInputSvg} {...rest} />;
+}
+
+export function EmptyIcon({...rest}) {
+  return <SvgIcon icon={emptySvg} {...rest} />;
 }

@@ -1,46 +1,61 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {PortalWithState} from 'react-portal';
+import {useDispatch, useSelector} from 'react-redux';
 import {Button} from '../../../components/button/button.jsx';
+import {Empty} from '../../../components/empty/empty.jsx';
+import {ProgressSpinner} from '../../../components/progress-spinner/progress-spinner.jsx';
+import {buildsSelector, loadBuilds} from '../../../store/builds.js';
 import {Build} from '../../build/build.jsx';
+import {RunBuildModal} from '../run-build-modal/run-build-modal.jsx';
+import './build-history.scss';
 
-const builds = [
-  {
-    buildNumber: 1368,
-    commitHash: '9c9f0b9',
-    branchName: 'master',
-    commitMessage:
-      'add documentation for postgres scaler Lorem ipsum dolor sit amet, consectetur\n' +
-      'adipisicing elit. Dolore doloribus eaque id iure mollitia nesciunt nihil officia quasi\n' +
-      'ratione, vel.',
-    authorName: 'Philip Kirkorov',
-    status: 'success',
-    duration: '1 ч 20 мин',
-    start: '21 янв, 03:06',
-  },
-  {
-    buildNumber: 1367,
-    commitHash: '9c9f0b9',
-    branchName: 'master',
-    commitMessage:
-      'add documentation for postgres scaler Lorem ipsum dolor sit amet, consectetur\n' +
-      'adipisicing elit. Dolore doloribus eaque id iure mollitia nesciunt nihil officia quasi\n' +
-      'ratione, vel.',
-    authorName: 'Philip Kirkorov',
-    status: 'success',
-    duration: '1 ч 20 мин',
-    start: '21 янв, 03:06',
-  },
-];
 export function BuildHistory() {
+  const dispatch = useDispatch();
+  const builds = useSelector(buildsSelector);
+  useEffect(() => {
+    dispatch(loadBuilds());
+  }, []);
+  const showEmptyPlug = !builds.isLoading && !builds.list.length;
   return (
     <main className="App-Main Container BuildHistory" data-test="build-history">
-      <ul className="BuildHistory-List">
-        {builds.map((build) => (
+      {showEmptyPlug ? <EmptyBuildsPlug /> : <BuildList builds={builds} />}
+      {builds.list.length ? (
+        <Button className="BuildHistory-ShowMoreButton">Show more</Button>
+      ) : null}
+    </main>
+  );
+}
+
+function BuildList({builds}) {
+  return (
+    <ul className="BuildHistory-List">
+      {builds.isLoading ? (
+        <ProgressSpinner />
+      ) : (
+        builds.list.map((build) => (
           <li className="BuildHistory-Item" key={build.buildNumber}>
             <Build build={build} />
           </li>
-        ))}
-      </ul>
-      <Button className="BuildHistory-ShowMoreButton">Show more</Button>
-    </main>
+        ))
+      )}
+    </ul>
+  );
+}
+
+function EmptyBuildsPlug() {
+  return (
+    <PortalWithState closeOnEsc closeOnOutsideClick>
+      {({portal, openPortal, closePortal}) => (
+        <>
+          <div className="EmptyBuildsPlug" data-test="empty-builds-plug">
+            <Empty text="There are no builds" />
+            <Button type="primary" data-test="empty-builds-plug-button" onClick={openPortal}>
+              Run build
+            </Button>
+          </div>
+          {portal(<RunBuildModal closePortal={closePortal} />)}
+        </>
+      )}
+    </PortalWithState>
   );
 }

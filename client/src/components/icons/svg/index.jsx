@@ -10,3 +10,4 @@ export {default as settingsSvg} from './settings.svg';
 export {default as stopwatchSvg} from './stopwatch.svg';
 export {default as userSvg} from './user.svg';
 export {default as clearInputSvg} from './clear-input.svg';
+export {default as emptySvg} from './empty.svg';
