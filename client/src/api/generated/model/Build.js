@@ -23,13 +23,14 @@ class Build {
    * Constructs a new <code>Build</code>.
    * @alias module:model/Build
    * @param buildNumber {Number}
+   * @param branchName {String}
    * @param commitHash {String}
    * @param commitMessage {String}
    * @param authorName {String}
    * @param status {module:model/Build.StatusEnum}
    */
-  constructor(buildNumber, commitHash, commitMessage, authorName, status) {
-    Build.initialize(this, buildNumber, commitHash, commitMessage, authorName, status);
+  constructor(buildNumber, branchName, commitHash, commitMessage, authorName, status) {
+    Build.initialize(this, buildNumber, branchName, commitHash, commitMessage, authorName, status);
   }
 
   /**
@@ -37,8 +38,9 @@ class Build {
    * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
    * Only for internal use.
    */
-  static initialize(obj, buildNumber, commitHash, commitMessage, authorName, status) {
+  static initialize(obj, buildNumber, branchName, commitHash, commitMessage, authorName, status) {
     obj['buildNumber'] = buildNumber;
+    obj['branchName'] = branchName;
     obj['commitHash'] = commitHash;
     obj['commitMessage'] = commitMessage;
     obj['authorName'] = authorName;
@@ -58,6 +60,9 @@ class Build {
 
       if (data.hasOwnProperty('buildNumber')) {
         obj['buildNumber'] = ApiClient.convertToType(data['buildNumber'], 'Number');
+      }
+      if (data.hasOwnProperty('branchName')) {
+        obj['branchName'] = ApiClient.convertToType(data['branchName'], 'String');
       }
       if (data.hasOwnProperty('commitHash')) {
         obj['commitHash'] = ApiClient.convertToType(data['commitHash'], 'String');
@@ -86,6 +91,11 @@ class Build {
  * @member {Number} buildNumber
  */
 Build.prototype['buildNumber'] = undefined;
+
+/**
+ * @member {String} branchName
+ */
+Build.prototype['branchName'] = undefined;
 
 /**
  * @member {String} commitHash

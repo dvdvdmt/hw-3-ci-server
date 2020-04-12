@@ -119,6 +119,7 @@ components:
       type: object
       required:
         - buildNumber
+        - branchName
         - commitHash
         - commitMessage
         - authorName
@@ -126,6 +127,8 @@ components:
       properties:
         buildNumber:
           type: integer
+        branchName:
+          type: string
         commitHash:
           type: string
           example: 4ea74703f8294cac67c92e1667fb6b07f539b354
