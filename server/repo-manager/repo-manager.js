@@ -7,7 +7,19 @@ const {gitApi} = require('./git-api.js');
 let settings = {};
 
 async function initialize() {
-  settings = await settingsApi.fetch();
+  try {
+    settings = await settingsApi.fetch();
+  } catch (e) {
+    if (e.response && e.response.status === 401) {
+      console.log(
+        '401 Unauthorized. Try to update auth token.',
+        `Headers[www-authenticate]: ${e.response.headers['www-authenticate']}`
+      );
+    } else {
+      console.log(e);
+    }
+    return;
+  }
   if (!settings.repoName) {
     console.log('The repository name is empty. Initialization stopped.');
     return;
