@@ -101,11 +101,13 @@ async function processBuildQueue() {
 }
 
 function getRepoDir(repoName) {
-  return path.join(config.reposRootDir, repoName);
+  const [_userName, ...rest] = repoName.split('/');
+  const repoDir = rest.join('/');
+  return path.join(config.reposRootDir, repoDir);
 }
 
 function getRepoUrl(repoName) {
-  return `${config.repoHostUserUrl}/${repoName}.git`;
+  return `${config.repoHostUrl}/${repoName}.git`;
 }
 
 exports.repoManager = {

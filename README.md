@@ -24,7 +24,7 @@ curl --location --request POST 'localhost:3000/api/settings' \
 --data-raw '{
     "mainBranch": "main",
     "buildCommand": "npm run --silent build",
-    "repoName": "hw-3-public-repo-example",
+    "repoName": "dvdvdmt/hw-3-public-repo-example",
     "period": 1
 }'
 ```

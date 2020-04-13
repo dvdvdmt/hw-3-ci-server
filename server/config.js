@@ -12,5 +12,5 @@ exports.config = {
   buildClientDir,
   indexHtmlPath,
   reposRootDir,
-  repoHostUserUrl: `${process.env.REPO_HOST_URL}/${process.env.REPO_HOST_USER_ID}`,
+  repoHostUrl: process.env.REPO_HOST_URL,
 };
