@@ -3,6 +3,9 @@
 
 .BuildHistory-List {
   @include list-reset;
+
+  display: flex;
+  height: 100%;
 }
 
 .BuildHistory-Item {

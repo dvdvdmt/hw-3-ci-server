@@ -1,5 +1,7 @@
+import './build.scss';
 import cn from 'classnames';
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {
   CalendarIcon,
   ClockIcon,
@@ -9,12 +11,16 @@ import {
   StopwatchIcon,
   UserIcon,
 } from '../../components/icons';
-import './build.scss';
+import {toBuildDetails} from '../../utils/router.js';
 
 export function Build({className, build}) {
   const buildStatus = build.status.toLowerCase();
   return (
-    <a href="#/build/id" className={cn(className, 'Build', `Build_status_${buildStatus}`)}>
+    <Link
+      to={toBuildDetails(build.buildNumber)}
+      className={cn(className, 'Build', `Build_status_${buildStatus}`)}
+      data-test="build-card"
+    >
       <div className="Build-Status">
         <DoneIcon width="16" height="16" className="Build-StatusIcon Build-StatusIcon_success" />
         <FailIcon width="16" height="16" className="Build-StatusIcon Build-StatusIcon_fail" />
@@ -43,7 +49,7 @@ export function Build({className, build}) {
         <div className="Build-Times">
           <div className="Build-DateTime">
             <CalendarIcon width="16" height="16" />
-            <span className="Build-DateTimeText">{build.start}</span>
+            <span className="Build-DateTimeText">{build.start.toString()}</span>
           </div>
           <div className="Build-Duration">
             <StopwatchIcon width="16" height="16" />
@@ -51,6 +57,6 @@ export function Build({className, build}) {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

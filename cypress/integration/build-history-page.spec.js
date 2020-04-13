@@ -59,7 +59,15 @@ describe('build history page >', () => {
     cy.get('{run-build-form}').should('be.visible');
   });
 
-  it.skip('runs new build and shows it in the build list', () => {
-    console.log('123', 123);
+  it('runs new build and shows it in the build list', () => {
+    cy.route('GET', '/api/settings').as('fetch-settings');
+    cy.fixture('default-settings.json').then((settings) => {
+      cy.setSettings(settings);
+    });
+    cy.visit('/');
+    cy.get('{run-build-button}').click();
+    cy.get('{commit-hash}').type('f96ec8f');
+    cy.get('{run-build-submit}').click();
+    cy.get('{build-card}').should('be.visible');
   });
 });

@@ -113,7 +113,6 @@ export function SettingsPage() {
   function onSubmitHandler(event) {
     event.preventDefault();
     const formValues = getFormValuesAsObject(event.target, {period: 'number'});
-    console.log('formValues', formValues);
     dispatch(saveSettings(formValues));
   }
 }
