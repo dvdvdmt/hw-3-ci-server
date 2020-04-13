@@ -103,6 +103,9 @@ async function processBuildQueue() {
 function getRepoDir(repoName) {
   const [_userName, ...rest] = repoName.split('/');
   const repoDir = rest.join('/');
+  if (!repoDir) {
+    throw new Error(`The repoName is invalid '${repoName}'. It has no user id prefix.`);
+  }
   return path.join(config.reposRootDir, repoDir);
 }
 
