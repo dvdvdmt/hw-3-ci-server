@@ -27,15 +27,16 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        use: [
-          'cache-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-react'],
-            },
-          },
-        ],
+        use: {
+          presets: [
+            '@babel/preset-react',
+            [
+              '@babel/preset-env',
+              {targets: {browsers: ['>0.25%', 'not ie 11', 'not op_mini all']}},
+            ],
+          ],
+          plugins: ['@babel/plugin-transform-runtime'],
+        },
         exclude: /node_modules/,
       },
       {
