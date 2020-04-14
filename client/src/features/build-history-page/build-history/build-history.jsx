@@ -27,9 +27,10 @@ export function BuildHistory() {
 }
 
 function BuildList({builds}) {
+  const showProgress = builds.isLoading && !builds.list.length;
   return (
     <ul className="BuildHistory-List">
-      {builds.isLoading ? (
+      {showProgress ? (
         <ProgressSpinner />
       ) : (
         builds.list.map((build) => (
