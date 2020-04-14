@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button} from '../../../components/button/button.jsx';
 import {FormInput} from '../../../components/form/form.jsx';
 import {Modal} from '../../../components/modal/modal.jsx';
-import {buildsSelector, runBuild} from '../../../store/builds.js';
+import {buildsSelector, loadBuilds, loadBuildsStart, runBuild} from '../../../store/builds.js';
 import {getFormValuesAsObject} from '../../../utils/form.js';
 
 export function RunBuildModal({closePortal}) {
@@ -50,6 +50,10 @@ export function RunBuildModal({closePortal}) {
     const formValues = getFormValuesAsObject(event.target);
     dispatch(runBuild(formValues.commitHash)).then(() => {
       closePortal();
+      dispatch(loadBuildsStart());
+      setTimeout(() => {
+        dispatch(loadBuilds());
+      }, 1000);
     });
   }
 }

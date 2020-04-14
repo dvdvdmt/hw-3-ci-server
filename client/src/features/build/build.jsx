@@ -49,7 +49,7 @@ export function Build({className, build}) {
         <div className="Build-Times">
           <div className="Build-DateTime">
             <CalendarIcon width="16" height="16" />
-            <span className="Build-DateTimeText">{build.start.toString()}</span>
+            <span className="Build-DateTimeText">{build.start?.toString()}</span>
           </div>
           <div className="Build-Duration">
             <StopwatchIcon width="16" height="16" />

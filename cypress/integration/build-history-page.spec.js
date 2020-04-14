@@ -51,6 +51,7 @@ describe('build history page >', () => {
   });
 
   it('shows plug on empty builds', () => {
+    cy.deleteSettings();
     cy.route('GET', '/api/settings', 'fixture:default-settings').as('fetch-settings');
     cy.visit('/');
     cy.wait('@fetch-settings');
@@ -61,6 +62,7 @@ describe('build history page >', () => {
 
   it('runs new build and shows it in the build list', () => {
     cy.route('GET', '/api/settings').as('fetch-settings');
+    cy.route('POST', '/api/builds/*').as('run-build');
     cy.fixture('default-settings.json').then((settings) => {
       cy.setSettings(settings);
     });
@@ -68,6 +70,7 @@ describe('build history page >', () => {
     cy.get('{run-build-button}').click();
     cy.get('{commit-hash}').type('f96ec8f');
     cy.get('{run-build-submit}').click();
+    cy.wait('@run-build');
     cy.get('{build-card}').should('be.visible');
   });
 });

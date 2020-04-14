@@ -39,7 +39,7 @@ export function buildsSelector({builds}) {
   return builds;
 }
 
-function loadBuildsStart() {
+export function loadBuildsStart() {
   return {type: BUILDS_LOAD_START};
 }
 
@@ -59,8 +59,8 @@ export function loadBuilds() {
   return async (dispatch) => {
     dispatch(loadBuildsStart());
     try {
-      const settings = await api.getBuilds();
-      dispatch(buildsSet(settings));
+      const builds = await api.getBuilds();
+      dispatch(buildsSet(builds));
       dispatch(loadBuildsFinish());
     } catch (e) {
       console.error(e); // TODO: notify user
