@@ -11,7 +11,7 @@ import {toBuildDetails, toBuildHistory, toSettings} from './utils/router.js';
 
 export function App() {
   const settings = useSelector(settingsSelector);
-  const isSpinnerVisible = settings.isFirstLoading || settings.isLoading;
+  const isSpinnerVisible = settings.isLoading;
 
   return (
     <div className="App">

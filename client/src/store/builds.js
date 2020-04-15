@@ -1,7 +1,8 @@
 import {api} from '../api';
 
 const initialState = {
-  isLoading: true,
+  isFirstLoading: true,
+  isLoading: false,
   list: [],
   runByHash: {isLoading: false},
 };
@@ -19,9 +20,9 @@ export function builds(state = initialState, action) {
     case BUILDS_LOAD_START:
       return {...state, isLoading: true};
     case BUILDS_LOAD_SUCCESS:
-      return {...state, isLoading: false};
+      return {...state, isLoading: false, isFirstLoading: false};
     case BUILDS_LOAD_FAIL:
-      return {...state, isLoading: false};
+      return {...state, isLoading: false, isFirstLoading: false};
     case BUILDS_SET:
       return {...state, list: [...action.payload]};
     case BUILDS_RUN_BY_HASH_START:
@@ -91,5 +92,16 @@ export function runBuild(commitHash) {
       console.error(e); // TODO: notify user
       dispatch(runBuildFail());
     }
+  };
+}
+
+const POLLING_INTERVAL = 10000;
+export function startBuildsPolling() {
+  return (dispatch) => {
+    dispatch(loadBuilds());
+    const intervalId = setInterval(() => {
+      dispatch(loadBuilds());
+    }, POLLING_INTERVAL);
+    return () => clearInterval(intervalId);
   };
 }

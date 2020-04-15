@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button} from '../../../components/button/button.jsx';
 import {Empty} from '../../../components/empty/empty.jsx';
 import {ProgressSpinner} from '../../../components/progress-spinner/progress-spinner.jsx';
-import {buildsSelector, loadBuilds} from '../../../store/builds.js';
+import {buildsSelector, startBuildsPolling} from '../../../store/builds.js';
 import {Build} from '../../build/build.jsx';
 import {RunBuildModal} from '../run-build-modal/run-build-modal.jsx';
 import './build-history.scss';
@@ -13,10 +13,13 @@ export function BuildHistory() {
   const dispatch = useDispatch();
   const builds = useSelector(buildsSelector);
   useEffect(() => {
-    dispatch(loadBuilds());
+    return dispatch(startBuildsPolling());
   }, []);
-  const showEmptyPlug = !builds.isLoading && !builds.list.length;
-  return (
+  const showEmptyPlug = !builds.list.length;
+  const showProgress = builds.isFirstLoading;
+  return showProgress ? (
+    <ProgressSpinner />
+  ) : (
     <main className="App-Main Container BuildHistory" data-test="build-history">
       {showEmptyPlug ? <EmptyBuildsPlug /> : <BuildList builds={builds} />}
       {builds.list.length ? (
@@ -27,18 +30,13 @@ export function BuildHistory() {
 }
 
 function BuildList({builds}) {
-  const showProgress = builds.isLoading && !builds.list.length;
   return (
     <ul className="BuildHistory-List">
-      {showProgress ? (
-        <ProgressSpinner />
-      ) : (
-        builds.list.map((build) => (
-          <li className="BuildHistory-Item" key={build.buildNumber}>
-            <Build build={build} />
-          </li>
-        ))
-      )}
+      {builds.list.map((build) => (
+        <li className="BuildHistory-Item" key={build.buildNumber}>
+          <Build build={build} />
+        </li>
+      ))}
     </ul>
   );
 }
