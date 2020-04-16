@@ -16,7 +16,7 @@
 Для задания был подготовлен вспомогательный репозиторий
 [hw-3-public-repo-example](https://github.com/dvdvdmt/hw-3-public-repo-example). В нем можно
 выполнить команду псевдо-сборки `npm run --silent build` которая выдаст лог сборки, либо завершится
-ошибкой. Тестовые настройки можно задать с помощью `curl`:
+ошибкой. Тестовые настройки после запуска сервера можно задать с помощью `curl`:
 
 ```$bash
 curl --location --request POST 'localhost:3000/api/settings' \
@@ -28,6 +28,8 @@ curl --location --request POST 'localhost:3000/api/settings' \
     "period": 1
 }'
 ```
+
+Либо после запуска клиента на [странице настроек](http://localhost:3000/settings).
 
 ## Описание клиента
 
