@@ -17,7 +17,7 @@
     "start:client:dev": "webpack-dev-server --config client/webpack/webpack.config.js --env.dev --watch",
     "start:server": "node server/server.js",
     "start:server:dev": "nodemon --watch server server/server.js",
-    "test": "echo \"Error: no unit test specified\" && exit 1",
+    "test": "jest",
     "test:e2e": "cypress open"
   },
   "keywords": [],
@@ -31,6 +31,9 @@
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix",
     "*.scss": "stylelint --fix"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": ["cypress"]
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^1.0.12-4.3.0",
@@ -77,6 +80,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.0.2",
     "husky": "^4.2.3",
+    "jest": "^25.3.0",
     "lint-staged": "^10.1.1",
     "mini-css-extract-plugin": "^0.9.0",
     "nodemon": "^2.0.2",
