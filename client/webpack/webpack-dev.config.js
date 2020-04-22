@@ -3,7 +3,6 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const webpack = require('webpack');
 
 const rootDir = path.resolve(__dirname, '..', '..');
 const clientDir = path.resolve(rootDir, 'client');
@@ -71,9 +70,6 @@ module.exports = {
       ],
       {copyUnmodified: true}
     ),
-    new webpack.DefinePlugin({
-      'process.env.API_CLIENT_BASE_URL': JSON.stringify(process.env.API_CLIENT_BASE_URL),
-    }),
   ],
   devServer: {
     contentBase: buildDir,
