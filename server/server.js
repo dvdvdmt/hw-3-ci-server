@@ -20,8 +20,8 @@ app.get('*', (req, res) => {
 });
 app.use(errorHandler);
 
-app.listen(3000, async () => {
-  console.log('CI server is running at http://localhost:3000');
-  console.log('Swagger UI available at http://localhost:3000/api-docs');
+app.listen(config.serverPort, async () => {
+  console.log(`CI server is running at http://localhost:${config.serverPort}`);
+  console.log(`Swagger UI available at http://localhost:${config.serverPort}/api-docs`);
   repoProcess.send(initRepo());
 });

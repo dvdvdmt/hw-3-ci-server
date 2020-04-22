@@ -13,4 +13,5 @@ exports.config = {
   indexHtmlPath,
   reposRootDir,
   repoHostUrl: process.env.REPO_HOST_URL,
+  serverPort: parseInt(process.env.SERVER_PORT) || 3000,
 };
