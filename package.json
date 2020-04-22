@@ -33,7 +33,9 @@
     "*.scss": "stylelint --fix"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["cypress"]
+    "modulePathIgnorePatterns": [
+      "cypress"
+    ]
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^1.0.12-4.3.0",
@@ -54,7 +56,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "superagent": "^5.2.2",
-    "swagger-ui-express": "^4.1.3"
+    "swagger-ui-express": "^4.1.3",
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
