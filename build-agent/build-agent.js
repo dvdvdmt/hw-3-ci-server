@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const {serverApi} = require('./server-api.js');
 
-serverApi.getAgentSettings().then(({data: settings}) => {
+serverApi.fetchAgentSettings().then(({data: settings}) => {
   const {port} = settings;
   const app = express();
 

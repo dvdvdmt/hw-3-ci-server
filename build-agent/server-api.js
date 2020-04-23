@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {uuidv4: uuid} = require('uuid');
+const {v4: uuid} = require('uuid');
 
 const agentId = uuid();
 const api = axios.create({
@@ -7,10 +7,10 @@ const api = axios.create({
   headers: {'X-Agent-Id': agentId},
 });
 
-function getAgentSettings() {
+function fetchAgentSettings() {
   return api.get('/notify-agent');
 }
 
 exports.serverApi = {
-  getAgentSettings,
+  fetchAgentSettings,
 };

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const swaggerUi = require('swagger-ui-express');
+const {agentRouter} = require('./agent-router.js');
 const {apiRouter} = require('./api-router.js');
 const {config} = require('./config.js');
 const {errorHandler} = require('./error-handler.js');
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.static(config.publicDir));
 app.use(express.static(config.buildClientDir));
 app.use('/api', apiRouter);
+app.use(agentRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {swaggerUrl: '/openapi.yml'}));
 app.get('*', (req, res) => {
   res.sendFile(config.indexHtmlPath);
