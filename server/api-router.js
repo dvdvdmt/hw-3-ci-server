@@ -1,9 +1,7 @@
 const express = require('express');
 const ah = require('express-async-handler');
 const {buildQueueApi} = require('./build-queue-api.js');
-const {initRepo} = require('./repo-manager');
-const {scheduleBuild} = require('./repo-manager');
-const {repoProcess} = require('./repo-manager');
+const {repoManager} = require('./repo-manager/repo-manager.js');
 const {settingsApi} = require('./settings-api.js');
 
 const router = express.Router();
@@ -20,7 +18,7 @@ router.post(
   '/settings',
   ah(async (req, res) => {
     const settings = await settingsApi.update(req.body);
-    repoProcess.send(initRepo());
+    await repoManager.initialize();
     res.json(settings);
   })
 );
@@ -44,7 +42,7 @@ router.post(
   '/builds/:commitHash',
   ah(async (req, res) => {
     const {commitHash} = req.params;
-    repoProcess.send(scheduleBuild({commitHash}));
+    await repoManager.scheduleBuild(commitHash);
     res.sendStatus(200);
   })
 );

@@ -24,12 +24,18 @@ async function initialize() {
     console.log('The repository name is empty. Initialization stopped.');
     return;
   }
-  gitApi.setup({
-    repoDir: getRepoDir(settings.repoName),
-    repoUrl: getRepoUrl(settings.repoName),
-    reposRootDir: config.reposRootDir,
-    repoName: settings.repoName,
-  });
+  try {
+    gitApi.setup({
+      repoDir: getRepoDir(settings.repoName),
+      repoUrl: getRepoUrl(settings.repoName),
+      reposRootDir: config.reposRootDir,
+      repoName: settings.repoName,
+    });
+  } catch (e) {
+    console.log(`Can't initialize git repository because of the following error`);
+    console.log(e);
+    return;
+  }
   const isCloned = await gitApi.clone(settings.repoUrl, config.reposRootDir);
   if (isCloned) {
     console.log(`'${settings.repoName}' initialized`);

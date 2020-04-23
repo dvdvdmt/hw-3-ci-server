@@ -6,7 +6,7 @@ const {agentRouter} = require('./agent-router.js');
 const {apiRouter} = require('./api-router.js');
 const {config} = require('./config.js');
 const {errorHandler} = require('./error-handler.js');
-const {repoProcess, initRepo} = require('./repo-manager');
+const {repoManager} = require('./repo-manager/repo-manager.js');
 
 const app = express();
 
@@ -25,5 +25,5 @@ app.use(errorHandler);
 app.listen(config.serverPort, async () => {
   console.log(`CI server is running at http://localhost:${config.serverPort}`);
   console.log(`Swagger UI available at http://localhost:${config.serverPort}/api-docs`);
-  repoProcess.send(initRepo());
+  repoManager.initialize();
 });
