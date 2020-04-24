@@ -1,150 +1,148 @@
 const childProcess = require('child_process');
+const path = require('path');
 const util = require('util');
 const del = require('del');
 
 const execFile = util.promisify(childProcess.execFile);
 const exec = util.promisify(childProcess.exec);
 
-let repoDir;
-let reposRootDir;
-let repoUrl;
-let repoName;
-
-function setup(settings) {
-  repoDir = settings.repoDir;
-  reposRootDir = settings.reposRootDir;
-  repoUrl = settings.repoUrl;
-  repoName = settings.repoName;
-}
-
-async function getCommitMessage(commitHash) {
-  let res;
-  try {
-    const {stdout} = await execFile(
-      'git',
-      ['show', '--no-patch', `--pretty=format:%B`, commitHash],
-      {
-        cwd: repoDir,
-      }
-    );
-    res = stdout;
-  } catch (e) {
-    console.error(`Error: ${e.cmd}`);
-    return;
-  }
-  return res.trim();
-}
-
-async function getAuthorName(commitHash) {
-  let res;
-  try {
-    const {stdout} = await execFile(
-      'git',
-      ['show', '--no-patch', `--pretty=format:%an`, commitHash],
-      {
-        cwd: repoDir,
-      }
-    );
-    res = stdout;
-  } catch (e) {
-    console.error(`Error: ${e.cmd}`);
-    return;
-  }
-  return res.trim();
-}
-
-async function getBranchName(commitHash) {
-  let res;
-  try {
-    const {stdout} = await execFile('git', ['name-rev', commitHash], {
-      cwd: repoDir,
-    });
-    res = stdout;
-  } catch (e) {
-    console.error(`Error: ${e.cmd}`);
-    return;
-  }
-  return res.split(' ')[1];
-}
-
-async function clone() {
-  try {
-    console.log(`Removing '${repoName}'...`);
-    await del(repoDir);
-  } catch (e) {
-    // It is fine if repo directory does not exists.
+class GitApi {
+  constructor(repoName, repoHostUrl, reposRootDir) {
+    this.repoName = repoName;
+    this.repoHostUrl = repoHostUrl;
+    this.reposRootDir = reposRootDir;
+    this.repoUrl = `${repoHostUrl}/${repoName}.git`;
+    this.repoDir = getRepoDir(reposRootDir, repoName);
   }
 
-  try {
-    const {stdout, stderr} = await execFile('git', ['clone', repoUrl], {
-      cwd: reposRootDir,
-    });
-    console.log(stdout || stderr);
-    return true;
-  } catch (e) {
-    console.log(`Error: ${e.cmd}`);
-    return false;
-  }
-}
-
-async function execInRepo(command) {
-  try {
-    const {stdout} = await exec(command, {
-      cwd: repoDir,
-    });
-    return {success: true, result: stdout};
-  } catch (e) {
-    console.log(`Error: ${e.cmd}`);
-    return {success: false, result: e.stdout || e.stderr};
-  }
-}
-
-async function fetch() {
-  try {
-    const {stdout, stderr} = await execFile('git', ['fetch'], {
-      cwd: repoDir,
-    });
-    console.log(stdout || stderr);
-    return true;
-  } catch (e) {
-    console.log(`Error: ${e.cmd}`);
-    return false;
-  }
-}
-
-async function checkout(commitHash) {
-  try {
-    const {stdout, stderr} = await execFile('git', ['checkout', commitHash], {
-      cwd: repoDir,
-    });
-    console.log(stdout || stderr);
-    return true;
-  } catch (e) {
-    console.log(`Error: ${e.cmd}`);
-    return false;
-  }
-}
-
-async function checkoutWithFetch(commitHash) {
-  const isChecked = await checkout(commitHash);
-  if (!isChecked) {
-    const isFetched = await fetch();
-    if (isFetched) {
-      return await checkout(commitHash);
+  async getCommitMessage(commitHash) {
+    let res;
+    try {
+      const {stdout} = await execFile(
+        'git',
+        ['show', '--no-patch', `--pretty=format:%B`, commitHash],
+        {
+          cwd: this.repoDir,
+        }
+      );
+      res = stdout;
+    } catch (e) {
+      console.error(`Error: ${e.cmd}`);
+      return;
     }
-    return false;
+    return res.trim();
   }
-  return true;
+
+  async getAuthorName(commitHash) {
+    let res;
+    try {
+      const {stdout} = await execFile(
+        'git',
+        ['show', '--no-patch', `--pretty=format:%an`, commitHash],
+        {
+          cwd: this.repoDir,
+        }
+      );
+      res = stdout;
+    } catch (e) {
+      console.error(`Error: ${e.cmd}`);
+      return;
+    }
+    return res.trim();
+  }
+
+  async getBranchName(commitHash) {
+    let res;
+    try {
+      const {stdout} = await execFile('git', ['name-rev', commitHash], {
+        cwd: this.repoDir,
+      });
+      res = stdout;
+    } catch (e) {
+      console.error(`Error: ${e.cmd}`);
+      return;
+    }
+    return res.split(' ')[1];
+  }
+
+  async clone() {
+    try {
+      console.log(`Removing '${this.repoName}'...`);
+      await del(this.repoDir);
+    } catch (e) {
+      // It is fine if repo directory does not exists.
+    }
+
+    try {
+      const {stdout, stderr} = await execFile('git', ['clone', this.repoUrl], {
+        cwd: this.reposRootDir,
+      });
+      console.log(stdout || stderr);
+      return true;
+    } catch (e) {
+      console.log(`Error: ${e.cmd}`);
+      return false;
+    }
+  }
+
+  async execInRepo(command) {
+    try {
+      const {stdout} = await exec(command, {
+        cwd: this.repoDir,
+      });
+      return {success: true, result: stdout};
+    } catch (e) {
+      console.log(`Error: ${e.cmd}`);
+      return {success: false, result: e.stdout || e.stderr};
+    }
+  }
+
+  async fetch() {
+    try {
+      const {stdout, stderr} = await execFile('git', ['fetch'], {
+        cwd: this.repoDir,
+      });
+      console.log(stdout || stderr);
+      return true;
+    } catch (e) {
+      console.log(`Error: ${e.cmd}`);
+      return false;
+    }
+  }
+
+  async checkout(commitHash) {
+    try {
+      const {stdout, stderr} = await execFile('git', ['checkout', commitHash], {
+        cwd: this.repoDir,
+      });
+      console.log(stdout || stderr);
+      return true;
+    } catch (e) {
+      console.log(`Error: ${e.cmd}`);
+      return false;
+    }
+  }
+
+  async checkoutWithFetch(commitHash) {
+    const isChecked = await this.checkout(commitHash);
+    if (!isChecked) {
+      const isFetched = await this.fetch();
+      if (isFetched) {
+        return await this.checkout(commitHash);
+      }
+      return false;
+    }
+    return true;
+  }
 }
 
-exports.gitApi = {
-  clone,
-  checkout,
-  execInRepo,
-  fetch,
-  checkoutWithFetch,
-  getAuthorName,
-  getBranchName,
-  getCommitMessage,
-  setup,
-};
+function getRepoDir(reposRootDir, repoName) {
+  const [_userName, ...rest] = repoName.split('/');
+  const repoDir = rest.join('/');
+  if (!repoDir) {
+    throw new Error(`The repoName is invalid '${repoName}'. It has no user id prefix.`);
+  }
+  return path.join(reposRootDir, repoDir);
+}
+
+exports.GitApi = GitApi;

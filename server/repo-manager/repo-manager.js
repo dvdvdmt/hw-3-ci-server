@@ -1,8 +1,7 @@
-const path = require('path');
 const {buildQueueApi} = require('../build-queue-api.js');
 const {config} = require('../config.js');
 const {settingsApi} = require('../settings-api.js');
-const {gitApi} = require('./git-api.js');
+const {GitApi} = require('./git-api.js');
 
 let settings = {};
 
@@ -24,19 +23,15 @@ async function initialize() {
     console.log('The repository name is empty. Initialization stopped.');
     return;
   }
+  let gitApi;
   try {
-    gitApi.setup({
-      repoDir: getRepoDir(settings.repoName),
-      repoUrl: getRepoUrl(settings.repoName),
-      reposRootDir: config.reposRootDir,
-      repoName: settings.repoName,
-    });
+    gitApi = new GitApi(settings.repoName, config.repoHostUrl, config.reposRootDir);
   } catch (e) {
     console.log(`Can't initialize git repository because of the following error`);
     console.log(e);
     return;
   }
-  const isCloned = await gitApi.clone(settings.repoUrl, config.reposRootDir);
+  const isCloned = await gitApi.clone();
   if (isCloned) {
     console.log(`'${settings.repoName}' initialized`);
   } else {
@@ -104,19 +99,6 @@ async function processBuildQueue() {
   } finally {
     isQueueInProcess = false;
   }
-}
-
-function getRepoDir(repoName) {
-  const [_userName, ...rest] = repoName.split('/');
-  const repoDir = rest.join('/');
-  if (!repoDir) {
-    throw new Error(`The repoName is invalid '${repoName}'. It has no user id prefix.`);
-  }
-  return path.join(config.reposRootDir, repoDir);
-}
-
-function getRepoUrl(repoName) {
-  return `${config.repoHostUrl}/${repoName}.git`;
 }
 
 exports.repoManager = {
