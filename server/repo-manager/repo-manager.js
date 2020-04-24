@@ -4,6 +4,7 @@ const {settingsApi} = require('../settings-api.js');
 const {GitApi} = require('./git-api.js');
 
 let settings = {};
+let gitApi;
 
 async function initialize() {
   try {
@@ -23,7 +24,6 @@ async function initialize() {
     console.log('The repository name is empty. Initialization stopped.');
     return;
   }
-  let gitApi;
   try {
     gitApi = new GitApi(settings.repoName, config.repoHostUrl, config.reposRootDir);
   } catch (e) {
