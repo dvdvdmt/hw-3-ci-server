@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const morgan = require('morgan');
+const {agentRouter} = require('./agent-router.js');
 const {serverApi} = require('./server-api.js');
 
 serverApi
@@ -7,6 +9,9 @@ serverApi
   .then(({data: settings}) => {
     const {port} = settings;
     const app = express();
+    app.use(morgan('dev'));
+    app.use(express.json());
+    app.use(agentRouter);
 
     app.listen(port, async () => {
       console.log(`Build agent is listening at http://localhost:${port}`);
