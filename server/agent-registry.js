@@ -1,13 +1,16 @@
+const {Agent} = require('./agent.js');
 const {config} = require('./config.js');
 
-let nextAgentPort = config.serverPort + 1;
-const agentMap = {};
-function add(agentId) {
-  agentMap[agentId] = {
-    id: agentId,
-    port: nextAgentPort++,
-  };
-  return agentMap[agentId];
+class AgentRegistry {
+  constructor(serverPort) {
+    this.nextPort = serverPort + 1;
+    this.agentMap = {};
+  }
+
+  add(agentId) {
+    this.agentMap[agentId] = new Agent(agentId, this.nextPort++);
+    return this.agentMap[agentId];
+  }
 }
 
-module.exports.agentRegistry = {add};
+exports.agentRegistry = new AgentRegistry(config.serverPort);
