@@ -111,6 +111,7 @@ function getRepoDir(reposRootDir, repoName) {
 exports.repoManager = {
   initialize,
   scheduleBuild,
+  processBuildQueue,
 };
 
 exports.getRepoDir = getRepoDir;

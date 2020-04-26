@@ -1,6 +1,7 @@
 const express = require('express');
 const {agentRegistry} = require('./agent-registry.js');
 const {buildQueueApi} = require('./build-queue-api.js');
+const {repoManager} = require('./repo-manager/repo-manager.js');
 const router = express.Router();
 
 router.get('/notify-agent', (req, res) => {
@@ -20,6 +21,7 @@ router.post('/notify-build-result', (req) => {
   } else {
     buildQueueApi.fail(buildId, log);
   }
+  repoManager.processBuildQueue();
 });
 
 exports.agentRouter = router;
