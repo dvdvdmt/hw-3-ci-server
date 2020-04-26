@@ -16,8 +16,10 @@
     "start": "npm run start:server:dev",
     "start:client:dev": "webpack-dev-server --config client/webpack/webpack.config.js --env.dev --watch",
     "start:server": "node server/server.js",
-    "start:server:dev": "nodemon --watch server --inspect server/server.js",
-    "start:agent:dev": "nodemon --watch build-agent --inspect=9339 build-agent/build-agent.js",
+    "start:server:dev": "nodemon --watch server server/server.js",
+    "start:agent:dev": "nodemon --watch build-agent build-agent/build-agent.js",
+    "start:server:dev:debug": "nodemon --watch server --inspect server/server.js",
+    "start:agent:dev:debug": "nodemon --watch build-agent --inspect=9339 build-agent/build-agent.js",
     "test:unit": "jest",
     "test:e2e": "cypress open"
   },
