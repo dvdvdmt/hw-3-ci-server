@@ -5,12 +5,17 @@ const del = require('del');
 
 require('dotenv').config();
 const {config} = require('../config.js');
-
 const {GitApi} = require('./git-api.js');
+const {getRepoDir} = require('./repo-manager.js');
+
+const repoName = 'repo-name';
+const repoFullName = `test/${repoName}`;
+const repoUrl = `${config.repoHostUrl}/${repoFullName}.git`;
+const repoDir = getRepoDir(config.reposRootDir, repoFullName);
 
 describe('git API', () => {
   it('gets branch name', async () => {
-    const gitApi = new GitApi('test/repo-name', 'https://github.com', config.reposRootDir);
+    const gitApi = new GitApi(repoUrl, repoDir);
     childProcess.execFile.mockImplementation((_file, _args, _options, cb) => {
       cb(undefined, {stdout: 'a0b84 crm-67-new-ticket-style'});
     });
@@ -18,10 +23,8 @@ describe('git API', () => {
   });
 
   it('removes repository directory before clone', async () => {
-    const repoName = 'repo-name';
-    const repoFullName = `test/${repoName}`;
-    const gitApi = new GitApi(repoFullName, 'https://github.com', config.reposRootDir);
-    childProcess.execFile.mockImplementation((_file, _args, _options, cb) => {
+    const gitApi = new GitApi(repoUrl, repoDir);
+    childProcess.execFile.mockImplementation((_file, _args, cb) => {
       cb(undefined, {stdout: 'a0b84 crm-67-new-ticket-style'});
     });
     await gitApi.clone();

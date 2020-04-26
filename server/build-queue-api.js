@@ -23,32 +23,36 @@ async function push(build) {
   await dbApi.post('/build/request', build);
 }
 
-async function pop() {
+async function getWaitingBuild() {
   const builds = await getAll();
   const firstWaitingBuild = builds.find(({status}) => status === 'Waiting');
   return firstWaitingBuild;
 }
 
-async function start(buildId, startDate) {
-  await dbApi.post('/build/start', {buildId, dateTime: startDate.toISOString()});
+async function start(buildId, startDate = new Date().toISOString()) {
+  await dbApi.post('/build/start', {buildId, dateTime: startDate});
 }
 
-async function fail(buildId, buildLog, startDate) {
-  const failDate = new Date();
+async function fail(buildId, buildLog) {
+  const {start} = await get(buildId);
+  const startDate = new Date(start);
+  const endDate = new Date();
   await dbApi.post('/build/finish', {
     buildId,
     success: false,
-    duration: differenceInSeconds(failDate, startDate),
+    duration: differenceInSeconds(endDate, startDate),
     buildLog,
   });
 }
 
-async function success(buildId, buildLog, startDate) {
-  const failDate = new Date();
+async function success(buildId, buildLog) {
+  const {start} = await get(buildId);
+  const startDate = new Date(start);
+  const endDate = new Date();
   await dbApi.post('/build/finish', {
     buildId,
     success: true,
-    duration: differenceInSeconds(failDate, startDate),
+    duration: differenceInSeconds(endDate, startDate),
     buildLog,
   });
 }
@@ -65,7 +69,7 @@ async function getBuildLog(buildId) {
 
 exports.buildQueueApi = {
   push,
-  pop,
+  getWaitingBuild,
   getAll,
   get,
   getBuildLog,

@@ -1,3 +1,5 @@
+const path = require('path');
+const {agentRegistry} = require('../agent-registry.js');
 const {buildQueueApi} = require('../build-queue-api.js');
 const {config} = require('../config.js');
 const {settingsApi} = require('../settings-api.js');
@@ -25,7 +27,9 @@ async function initialize() {
     return;
   }
   try {
-    gitApi = new GitApi(settings.repoName, config.repoHostUrl, config.reposRootDir);
+    const repoUrl = `${config.repoHostUrl}/${settings.repoName}.git`;
+    const repoDir = getRepoDir(config.reposRootDir, settings.repoName);
+    gitApi = new GitApi(repoUrl, repoDir);
   } catch (e) {
     console.log(`Can't initialize git repository because of the following error`);
     console.log(e);
@@ -37,13 +41,6 @@ async function initialize() {
   } else {
     console.log('The repository does not exist or unavailable. Initialization stopped.');
   }
-}
-
-async function runBuildCommand(commitHash) {
-  console.log(`Run '${settings.buildCommand}' for '${commitHash}'`);
-  const ans = await gitApi.execInRepo(settings.buildCommand);
-  console.log(ans.result);
-  return ans;
 }
 
 async function scheduleBuild(commitHash) {
@@ -78,17 +75,18 @@ async function processBuildQueue() {
   }
   isQueueInProcess = true;
   try {
-    let build = await buildQueueApi.pop();
-    while (build) {
-      const startDate = new Date();
-      await buildQueueApi.start(build.id, startDate);
-      const ans = await runBuildCommand(build.commitHash);
-      if (ans.success) {
-        await buildQueueApi.success(build.id, ans.result, startDate);
-      } else {
-        await buildQueueApi.fail(build.id, ans.result, startDate);
-      }
-      build = await buildQueueApi.pop();
+    let build = await buildQueueApi.getWaitingBuild();
+    let agent = agentRegistry.getFreeAgent();
+    while (build && agent) {
+      await agent.runBuild({
+        id: build.id,
+        commitHash: build.commitHash,
+        repoUrl: gitApi.repoUrl,
+        buildCommand: settings.buildCommand,
+      });
+      await buildQueueApi.start(build.id);
+      build = await buildQueueApi.getWaitingBuild();
+      agent = agentRegistry.getFreeAgent();
     }
   } catch (e) {
     if (e.isAxiosError) {
@@ -101,7 +99,18 @@ async function processBuildQueue() {
   }
 }
 
+function getRepoDir(reposRootDir, repoName) {
+  const [_userName, ...rest] = repoName.split('/');
+  const repoDir = rest.join('/');
+  if (!repoDir) {
+    throw new Error(`The repoName is invalid '${repoName}'. It has no user id prefix.`);
+  }
+  return path.join(reposRootDir, repoDir);
+}
+
 exports.repoManager = {
   initialize,
   scheduleBuild,
 };
+
+exports.getRepoDir = getRepoDir;

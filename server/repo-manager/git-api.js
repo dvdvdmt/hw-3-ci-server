@@ -7,12 +7,9 @@ const execFile = util.promisify(childProcess.execFile);
 const exec = util.promisify(childProcess.exec);
 
 class GitApi {
-  constructor(repoName, repoHostUrl, reposRootDir) {
-    this.repoName = repoName;
-    this.repoHostUrl = repoHostUrl;
-    this.reposRootDir = reposRootDir;
-    this.repoUrl = `${repoHostUrl}/${repoName}.git`;
-    this.repoDir = getRepoDir(reposRootDir, repoName);
+  constructor(repoUrl, repoDir) {
+    this.repoUrl = repoUrl;
+    this.repoDir = repoDir;
   }
 
   async getCommitMessage(commitHash) {
@@ -67,20 +64,18 @@ class GitApi {
 
   async clone() {
     try {
-      console.log(`Removing '${this.repoName}'...`);
+      console.log(`Removing '${path.basename(this.repoDir)}'...`);
       await del(this.repoDir);
     } catch (e) {
       // It is fine if repo directory does not exists.
     }
 
     try {
-      const {stdout, stderr} = await execFile('git', ['clone', this.repoUrl], {
-        cwd: this.reposRootDir,
-      });
+      const {stdout, stderr} = await execFile('git', ['clone', this.repoUrl, this.repoDir]);
       console.log(stdout || stderr);
       return true;
     } catch (e) {
-      console.log(`Error: ${e.cmd}`);
+      console.log(`Error:`, e);
       return false;
     }
   }
@@ -134,15 +129,6 @@ class GitApi {
     }
     return true;
   }
-}
-
-function getRepoDir(reposRootDir, repoName) {
-  const [_userName, ...rest] = repoName.split('/');
-  const repoDir = rest.join('/');
-  if (!repoDir) {
-    throw new Error(`The repoName is invalid '${repoName}'. It has no user id prefix.`);
-  }
-  return path.join(reposRootDir, repoDir);
 }
 
 exports.GitApi = GitApi;

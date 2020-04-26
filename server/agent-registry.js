@@ -11,6 +11,14 @@ class AgentRegistry {
     this.agentMap[agentId] = new Agent(agentId, this.nextPort++);
     return this.agentMap[agentId];
   }
+
+  getFreeAgent() {
+    return Object.values(this.agentMap).find((agent) => !agent.processingBuildId);
+  }
+
+  get(agentId) {
+    return this.agentMap[agentId];
+  }
 }
 
 exports.agentRegistry = new AgentRegistry(config.serverPort);

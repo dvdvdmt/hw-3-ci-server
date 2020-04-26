@@ -12,6 +12,10 @@ class Agent {
     await this.api.post(`/build`, {buildId: id, repoUrl, commitHash, buildCommand});
     this.processingBuildId = id;
   }
+
+  setFree() {
+    this.processingBuildId = null;
+  }
 }
 
 exports.Agent = Agent;
